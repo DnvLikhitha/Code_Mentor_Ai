@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="card p-4">
+  <h2>Profile</h2>
+  <p><b>Name:</b> {{ user.name }}</p>
+  <p><b>Email:</b> {{ user.email }}</p>
+  <h4 class="mt-4">Saved Code History</h4>
+  {% if snippets %}
+    <ul>
+      {% for s in snippets %}
+        <li>
+          <b>{{ s.language }}</b>:
+          <pre>{{ s.code }}</pre>
+          <small>{{ s.explanation or "" }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No code history yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
