@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="mb-4 text-end">
+  <a href="/my_progress" class="btn btn-primary">My Progress</a>
+</div>
+<div class="card p-4 mb-4">
+  <h2 class="mb-3" style="color:#6c63ff;">Profile</h2>
+  <p><b>Name:</b> {{ user.name }}</p>
+  <p><b>Email:</b> {{ user.email }}</p>
+  <h5 class="mt-4">Preferences</h5>
+  <pre class="bg-light p-2 rounded">{{ user.preferences or '{}' }}</pre>
+</div>
+<!-- <div class="card p-4 mb-4">
+  <h5 class="mb-3">Preferences</h5>
+  <form method="post" action="/update_preferences">
+    <div class="mb-2">
+      <label for="theme" class="form-label">Theme</label>
+      <select id="theme" name="theme" class="form-select">
+        <option value="system">System Default</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <div class="mb-2">
+      <label for="font_size" class="form-label">Editor Font Size</label>
+      <select id="font_size" name="font_size" class="form-select">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+    <div class="mb-2 form-check">
+      <input type="checkbox" class="form-check-input" id="email_notifications" name="email_notifications">
+      <label class="form-check-label" for="email_notifications">Email Notifications</label>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Save Preferences</button>
+  </form>
+</div> -->
+<div class="card p-4 mb-4">
+  <h4>Saved Code Snippets</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Code</th>
+        <th>Explanation</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in user.snippets %}
+      <tr id="snippet-{{ s.id }}">
+        <td>{{ s.language }}</td>
+        <td><pre style="white-space:pre-wrap;">{{ s.code }}</pre></td>
+        <td>{{ s.explanation }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" onclick="deleteSnippet({{ s.id }})" type="button" title="Delete">
+            &#128465;
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+function deleteSnippet(snippetId) {
+  console.log('Deleting snippet', snippetId);
+  if (!confirm("Are you sure you want to delete this snippet?")) return;
+  fetch("/delete_snippet/" + snippetId, {
+    method: "DELETE"
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById("snippet-" + snippetId).remove();
+    } else {
+      alert(data.error || "Failed to delete snippet.");
+    }
+  });
+}
+</script>
+{% endblock %}

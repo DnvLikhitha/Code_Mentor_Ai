@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Welcome - CodeMentor AI{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card p-5 text-center border-0">
+      <h1 class="display-4 mb-3" style="font-weight:700; color:#2d3250;">
+        Welcome to <span style="color:#6c63ff;">CodeMentor AI</span>
+      </h1>
+      <p class="lead mb-4" style="color:#555;">
+        <b>CodeMentor AI</b> is your personal AI-powered coding assistant.<br>
+        <span style="color:#43cea2;">Write, debug, and improve code with instant feedback and smart suggestions.</span>
+      </p>
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="p-3 rounded" style="background:#f6f7fb;">
+            <img src="https://img.icons8.com/color/48/000000/artificial-intelligence.png" alt="AI" width="48">
+            <h5 class="mt-2" style="color:#6c63ff;">AI Code Help</h5>
+            <p class="small">Get explanations, error detection, and improvement tips for your code.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 rounded" style="background:#f6f7fb;">
+            <img src="https://img.icons8.com/color/48/000000/source-code.png" alt="Editor" width="48">
+            <h5 class="mt-2" style="color:#43cea2;">Smart Editor</h5>
+            <p class="small">Write and edit code in a beautiful, distraction-free environment.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 rounded" style="background:#f6f7fb;">
+            <img src="https://img.icons8.com/color/48/000000/goal.png" alt="Challenges" width="48">
+            <h5 class="mt-2" style="color:#ffc107;">Challenges</h5>
+            <p class="small">Practice coding with real-world challenges and track your progress.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a class="btn btn-primary btn-lg m-2 px-4" href="/editor">Start Coding</a>
+        <a class="btn btn-outline-secondary btn-lg m-2 px-4" href="/login">Log In</a>
+      </div>
+      <div class="mt-4">
+        <small class="text-muted">
+          <i class="bi bi-shield-lock"></i>
+          Your code and data are private and secure.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

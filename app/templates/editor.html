@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+{% block title %}Code Editor{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+  <!-- GitHub Markdown CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css">
+  <!-- highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card p-4 border-0">
+      <div class="d-flex align-items-center mb-3">
+        <img src="https://img.icons8.com/color/48/000000/source-code.png" width="40" class="me-2" alt="editor">
+        <h2 class="mb-0" style="font-weight:700; color:#6c63ff;">AI Code Editor</h2>
+        
+      </div>
+      <p class="mb-3" style="color:#555;">
+        Write your code below and use the AI tools to get explanations, error detection, improvements, documentation, and debugging help instantly.
+        <br><small class="text-muted">💡 <strong>Voice Input:</strong> Click the microphone buttons to speak your prompts or describe code you want to generate!</small>
+      </p>
+      <form id="codeForm">
+        <div class="mb-3">
+  <label for="prompt" class="form-label">Prompt</label>
+  <div class="input-group">
+    <input type="text" id="prompt" name="prompt" class="form-control" placeholder="Describe what you want the AI to do...">
+    <button id="prompt-mic-btn" class="btn btn-outline-secondary" type="button">
+      <span id="prompt-mic-icon">🎤</span>
+    </button>
+    <button id="ask-btn" class="btn btn-primary" type="button">Ask</button>
+  </div>
+</div>
+        <div class="mb-3">
+  <label for="language" class="form-label">Language</label>
+    <select id="language" class="form-select">
+      <option value="python">Python</option>
+      <option value="c">C</option>
+      <option value="cpp">C++</option>
+      <option value="java">Java</option>
+      <option value="javascript">JavaScript</option>
+    </select>
+</div>
+        <div class="mb-3">
+          <label for="code" class="form-label">Code Editor</label>
+          <textarea id="code" name="code" rows="10" class="form-control"></textarea>
+          <div class="mt-2">
+            <button id="code-mic-btn" class="btn btn-outline-secondary btn-sm" type="button" title="Voice to Code">
+              <span id="code-mic-icon">🎤</span> Voice to Code
+            </button>
+          </div>
+        </div>
+        <div class="btn-group my-3 w-100" role="group">
+          <button type="button" class="btn btn-secondary" onclick="sendCode('explain')">Explain Code</button>
+          <button type="button" class="btn btn-warning" onclick="sendCode('errors')">Detect Errors</button>
+          <button type="button" class="btn btn-info" onclick="sendCode('improve')">Suggest Improvements</button>
+          <button type="button" class="btn btn-dark" onclick="sendCode('doc')">Generate Docs</button>
+          <button type="button" class="btn btn-danger" onclick="sendCode('debug')">Debug Assistant</button>
+          <button type="button" class="btn btn-success" onclick="saveSnippet()">Save Snippet</button>
+        </div>
+      </form>
+      <div class="ai-response-container">
+        <h4 class="ai-response-title">AI Response:</h4>
+        <div id="ai-response" class="markdown-body">{{ response|safe }}</div>
+      </div>
+      <div id="response" class="p-3 border bg-light rounded markdown-body"></div>
+      <div class="mt-3 text-end">
+        <small class="text-muted">Powered by <b>CodeMentor AI</b> &bull; <a href="/challenges">Try Coding Challenges &rarr;</a> &bull; <a href="/voice-test">Voice Test &rarr;</a></small>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    mode: "python",
+    lineNumbers: true,
+    theme: "default"
+  });
+
+  function sendCode(action) {
+  const code = editor.getValue();
+  const language = document.getElementById("language").value;
+  fetch(`/api/${action}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: code, language: language })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("response").textContent = data.result || data.error;
+    // Render markdown and highlight code
+    const raw = data.result || data.error || "";
+    document.getElementById("response").innerHTML = marked.parse(raw);
+    document.querySelectorAll('#response pre code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  });
+}
+
+function saveSnippet() {
+  const code = editor.getValue();
+  const language = document.getElementById("language").value;
+  const explanation = ""; // You can let the user add this, or use the AI response
+
+  fetch("/save_snippet", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: code, language: language, explanation: explanation })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message || "Snippet saved!");
+  });
+}
+</script>
+
+<script>
+let promptMediaRecorder;
+let promptAudioChunks = [];
+
+document.getElementById('prompt-mic-btn').onclick = async function() {
+  if (!navigator.mediaDevices) {
+    alert("Your browser does not support audio recording.");
+    return;
+  }
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ 
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+        sampleRate: 16000
+      } 
+    });
+    
+    // Try to use the best audio format available
+    let mimeType = 'audio/webm;codecs=opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/webm';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/mp4';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/wav';
+    }
+    
+    promptMediaRecorder = new MediaRecorder(stream, {
+      mimeType: mimeType
+    });
+    promptAudioChunks = [];
+    
+            promptMediaRecorder.ondataavailable = e => promptAudioChunks.push(e.data);
+        promptMediaRecorder.onstop = async () => {
+          try {
+            const audioBlob = new Blob(promptAudioChunks, { type: 'audio/webm' });
+            
+            // Check if we have audio data
+            if (audioBlob.size === 0) {
+              throw new Error('No audio recorded. Please check your microphone.');
+            }
+            
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'speech.wav');
+            formData.append('language', document.getElementById("language").value);
+
+            document.getElementById('prompt-mic-icon').textContent = "⏳";
+            document.getElementById('response').innerHTML = '<span style="color:blue">Processing speech...</span>';
+            
+            const res = await fetch('/api/speech-to-code', {
+              method: 'POST',
+              body: formData
+            });
+            
+            const data = await res.json();
+            document.getElementById('prompt-mic-icon').textContent = "🎤";
+            
+            if (res.ok && data.prompt) {
+              const promptInput = document.getElementById('prompt');
+              promptInput.value = (promptInput.value ? promptInput.value + ' ' : '') + data.prompt;
+              document.getElementById('response').innerHTML = '<span style="color:green">Voice prompt transcribed: "' + data.prompt + '"</span>';
+            } else {
+              document.getElementById('response').innerHTML = '<span style="color:red">Error: ' + (data.error || "Failed to transcribe prompt.") + '</span>';
+            }
+          } catch (error) {
+            document.getElementById('prompt-mic-icon').textContent = "🎤";
+            document.getElementById('response').innerHTML = '<span style="color:red">Error: ' + error.message + '</span>';
+          }
+        };
+    
+    promptMediaRecorder.start();
+    document.getElementById('prompt-mic-icon').textContent = "🔴";
+    document.getElementById('response').innerHTML = '<span style="color:blue">Recording... Speak now!</span>';
+    
+    setTimeout(() => {
+      if (promptMediaRecorder.state === 'recording') {
+        promptMediaRecorder.stop();
+      }
+    }, 5000); // Record for 5 seconds
+    
+  } catch (error) {
+    document.getElementById('response').innerHTML = '<span style="color:red">Error accessing microphone: ' + error.message + '</span>';
+  }
+};
+
+// Voice recording for code editor
+let codeMediaRecorder;
+let codeAudioChunks = [];
+
+document.getElementById('code-mic-btn').onclick = async function() {
+  if (!navigator.mediaDevices) {
+    alert("Your browser does not support audio recording.");
+    return;
+  }
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ 
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+        sampleRate: 16000
+      } 
+    });
+    
+    // Try to use the best audio format available
+    let mimeType = 'audio/webm;codecs=opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/webm';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/mp4';
+    }
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'audio/wav';
+    }
+    
+    codeMediaRecorder = new MediaRecorder(stream, {
+      mimeType: mimeType
+    });
+    codeAudioChunks = [];
+    
+            codeMediaRecorder.ondataavailable = e => codeAudioChunks.push(e.data);
+        codeMediaRecorder.onstop = async () => {
+          try {
+            const audioBlob = new Blob(codeAudioChunks, { type: 'audio/webm' });
+            
+            // Check if we have audio data
+            if (audioBlob.size === 0) {
+              throw new Error('No audio recorded. Please check your microphone.');
+            }
+            
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'speech.wav');
+            formData.append('language', document.getElementById("language").value);
+
+            document.getElementById('code-mic-icon').textContent = "⏳";
+            document.getElementById('response').innerHTML = '<span style="color:blue">Processing speech...</span>';
+            
+            const res = await fetch('/api/speech-to-code', {
+              method: 'POST',
+              body: formData
+            });
+            
+            const data = await res.json();
+            document.getElementById('code-mic-icon').textContent = "🎤";
+            
+            if (res.ok && data.code) {
+              editor.setValue(data.code);
+              document.getElementById('response').innerHTML = '<span style="color:green">Code generated from voice input!</span>';
+            } else {
+              document.getElementById('response').innerHTML = '<span style="color:red">Error: ' + (data.error || "Failed to generate code.") + '</span>';
+            }
+          } catch (error) {
+            document.getElementById('code-mic-icon').textContent = "🎤";
+            document.getElementById('response').innerHTML = '<span style="color:red">Error: ' + error.message + '</span>';
+          }
+        };
+    
+    codeMediaRecorder.start();
+    document.getElementById('code-mic-icon').textContent = "🔴";
+    document.getElementById('response').innerHTML = '<span style="color:blue">Recording... Describe the code you want!</span>';
+    
+    setTimeout(() => {
+      if (codeMediaRecorder.state === 'recording') {
+        codeMediaRecorder.stop();
+      }
+    }, 5000); // Record for 5 seconds
+    
+  } catch (error) {
+    document.getElementById('response').innerHTML = '<span style="color:red">Error accessing microphone: ' + error.message + '</span>';
+  }
+};
+</script>
+<script>
+document.getElementById('ask-btn').onclick = async function() {
+  const prompt = document.getElementById('prompt').value;
+  const language = document.getElementById('language').value;
+  if (!prompt.trim()) {
+    document.getElementById('response').innerHTML = '<span style="color:red">Please enter a prompt.</span>';
+    return;
+  }
+  document.getElementById('response').innerHTML = '<em>Loading...</em>';
+  try {
+    const res = await fetch('/api/prompt-to-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, language })
+    });
+    const data = await res.json();
+    if (data.code) {
+      editor.setValue(data.code);
+      document.getElementById('response').innerHTML = '<span style="color:green">Code generated and inserted below.</span>';
+    } else {
+      const raw = data.error || 'No code generated.';
+      document.getElementById('response').innerHTML = marked.parse(raw);
+      document.querySelectorAll('#response pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    }
+  } catch (err) {
+    document.getElementById('response').innerHTML = '<span style="color:red">Error: ' + err + '</span>';
+  }
+};
+</script>
+<!-- marked.js for Markdown rendering -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- highlight.js for code highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+  // Render markdown and highlight code
+  document.addEventListener("DOMContentLoaded", function() {
+    const raw = document.getElementById("ai-response").innerText;
+    document.getElementById("ai-response").innerHTML = marked.parse(raw);
+    document.querySelectorAll('#ai-response pre code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  });
+</script>
+
+{% endblock %}

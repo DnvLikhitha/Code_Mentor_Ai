@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ challenge.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='challenges.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/mode/clike/clike.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('challenges') }}" class="back-link">&larr; Back to Challenges</a>
+        <div class="challenge-exec-card">
+            <h1>{{ challenge.title }}</h1>
+            <p>{{ challenge.description }}</p>
+            <form method="post">
+              <label for="language">Select Language:</label>
+              <select name="language" id="language" onchange="updateStarterCode()">
+                  <option value="python" selected>Python</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="java">Java</option>
+                  <option value="cpp">C++</option>
+                  <option value="csharp">C#</option>
+              </select>
+              <label for="code">Your Solution:</label>
+              <textarea id="code" name="code" rows="12" style="display:none;">{{ last_code or starter_codes['python'] }}</textarea>
+              <div id="code-editor" style="border:1px solid #ccc;"></div>
+              <button type="submit" class="btn">Run & Submit</button>
+              <button type="button" class="btn btn-success" onclick="saveSnippet()">Save Snippet</button>
+          </form>
+          <script>
+              const starterCodes = {{ starter_codes|tojson }};
+              let codeMirrorInstance;
+              function getMode(lang) {
+                  switch(lang) {
+                      case 'python': return 'python';
+                      case 'javascript': return 'javascript';
+                      case 'java': return 'text/x-java';
+                      case 'cpp': return 'text/x-c++src';
+                      case 'csharp': return 'text/x-csharp';
+                      default: return 'python';
+                  }
+              }
+              function updateStarterCode() {
+                  const lang = document.getElementById('language').value;
+                  codeMirrorInstance.setOption('mode', getMode(lang));
+                  codeMirrorInstance.setValue(starterCodes[lang] || '');
+              }
+              function saveSnippet() {
+                    const code = codeMirrorInstance.getValue();
+                    const language = document.getElementById('language').value;
+                    const explanation = ""; // Optionally, you can use feedback or challenge description
+
+                    fetch("/save_snippet", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ code: code, language: language, explanation: explanation })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert(data.message || "Snippet saved!");
+                    });
+                }
+              window.onload = function() {
+                  codeMirrorInstance = CodeMirror(document.getElementById('code-editor'), {
+                      value: document.getElementById('code').value,
+                      mode: getMode(document.getElementById('language').value),
+                      lineNumbers: true,
+                      theme: 'default',
+                      indentUnit: 4,
+                      tabSize: 4,
+                      autofocus: true,
+                  });
+                  // Sync CodeMirror to textarea on form submit
+                  document.querySelector('form').onsubmit = function() {
+                      document.getElementById('code').value = codeMirrorInstance.getValue();
+                  };
+              };
+          </script>
+            {% if feedback %}
+            <div class="feedback">
+                <h3>Feedback</h3>
+                <div id="feedback-markdown"></div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    const feedbackRaw = {{ feedback|tojson }};
+                    document.getElementById('feedback-markdown').innerHTML = marked.parse(feedbackRaw);
+                  });
+                </script>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

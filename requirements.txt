@@ -1,0 +1,15 @@
+flask
+flask_sqlalchemy
+flask_login
+flask_wtf
+wtforms
+requests
+python-dotenv
+openai
+openai-whisper
+torch
+soundfile
+werkzeug
+google-generativeai
+numpy
+itsdangerous>=2.1.2

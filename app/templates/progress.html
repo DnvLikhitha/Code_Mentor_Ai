@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Progress{% endblock %}
+{% block content %}
+<div class="card p-4 mb-4">
+  <h2 class="mb-3" style="color:#6c63ff;">My Progress</h2>
+  <!--- <form method="get" class="mb-3">
+    <div class="row g-2">
+      <div class="col">
+        <input type="text" name="language" class="form-control" placeholder="Language" value="{{ request.args.get('language', '') }}">
+      </div>
+      <div class="col">
+        <input type="text" name="tag" class="form-control" placeholder="Tag" value="{{ request.args.get('tag', '') }}">
+      </div>
+      <div class="col">
+        <input type="date" name="date" class="form-control" value="{{ request.args.get('date', '') }}">
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Filter</button>
+      </div>
+    </div>
+  </form> --->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Challenge</th>
+        <th>Attempts</th>
+        <th>Solved</th>
+        <th>Last Feedback</th>
+        <th>Last Code</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in progress %}
+      <tr>
+        <td>{{ p.challenge_id }}</td>
+        <td>{{ p.attempts }}</td>
+        <td>{{ p.solved }}</td>
+        <td><pre style="white-space:pre-wrap;">{{ p.last_feedback }}</pre></td>
+        <td><pre style="white-space:pre-wrap;">{{ p.last_code[:100] }}{% if p.last_code|length > 100 %}...{% endif %}</pre></td>
+        <td>{{ p.updated_at.strftime('%Y-%m-%d') if p.updated_at else '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="mt-4">
+    <div class="card p-4 mb-4" style="background:#fff; color:#232946; max-width:520px; border-radius: 1.5rem; box-shadow: 0 8px 32px rgba(60, 60, 120, 0.10); margin:auto;">
+      <div class="row align-items-center">
+        <div class="col-7">
+          <canvas id="progressDonut" width="180" height="180"></canvas>
+          <div class="text-center mt-2">
+            <span style="font-size:2.5rem; font-weight:700; color:#5f4bb6;">{{ stats['solved'] }}</span>
+            <span style="font-size:1.2rem; color:#6c63ff;">/ {{ stats['total'] }}</span>
+            <div style="color:#22c55e; font-size:1.1rem; font-weight:600;">
+              <svg width="18" height="18" style="vertical-align:middle; margin-right:2px;"><circle cx="9" cy="9" r="8" fill="#22c55e"/></svg> Solved
+            </div>
+            <div style="color:#fbbf24; font-size:1rem; font-weight:600;">
+              <svg width="16" height="16" style="vertical-align:middle; margin-right:2px;"><circle cx="8" cy="8" r="7" fill="#fbbf24"/></svg> {{ stats['attempting'] }} Attempting
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="mb-2 legend-item" style="background:#f6f8fc; border-radius:10px; padding:8px 12px; display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:#6ee7b7;"></span>
+            <span style="color:#22c55e; font-weight:600;">Easy</span>
+            <span class="ms-auto" style="font-weight:500;">{{ stats['easy']['solved'] }}/{{ stats['easy']['total'] }}</span>
+          </div>
+          <div class="mb-2 legend-item" style="background:#f6f8fc; border-radius:10px; padding:8px 12px; display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:#fbbf24;"></span>
+            <span style="color:#fbbf24; font-weight:600;">Med.</span>
+            <span class="ms-auto" style="font-weight:500;">{{ stats['medium']['solved'] }}/{{ stats['medium']['total'] }}</span>
+          </div>
+          <div class="legend-item" style="background:#f6f8fc; border-radius:10px; padding:8px 12px; display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:#f87171;"></span>
+            <span style="color:#f87171; font-weight:600;">Hard</span>
+            <span class="ms-auto" style="font-weight:500;">{{ stats['hard']['solved'] }}/{{ stats['hard']['total'] }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const donut = document.getElementById('progressDonut').getContext('2d');
+const solved = {{ stats['solved'] }};
+const attempting = {{ stats['attempting'] }};
+const unsolved = {{ stats['total'] - stats['solved'] - stats['attempting'] }};
+{% raw %}
+new Chart(donut, {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [solved, attempting, unsolved],
+      backgroundColor: [
+        '#22c55e', // Solved (green, matches easy badge)
+        '#fbbf24', // Attempting (yellow, matches medium badge)
+        '#f87171'  // Unsolved (red, matches hard badge)
+      ],
+      borderWidth: 0,
+      cutout: '75%',
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false }
+    },
+    animation: {
+      animateRotate: true,
+      animateScale: true
+    }
+  }
+});
+{% endraw %}
+</script>
+<style>
+.legend-item:hover {
+  box-shadow: 0 2px 8px rgba(60,60,120,0.10);
+  background: #e9e7fd !important;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+</style>
+{% endblock %}

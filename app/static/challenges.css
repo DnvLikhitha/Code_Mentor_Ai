@@ -1,0 +1,199 @@
+body {
+    background: linear-gradient(135deg, #f6f8fc 0%, #e9e7fd 100%);
+    color: #22223b;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(60, 60, 120, 0.10);
+}
+
+h1, h2 {
+    color: #5f4bb6;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.challenge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: none; }
+}
+
+.challenge-card {
+    background: #f8f9fd;
+    border-radius: 18px;
+    padding: 28px 24px 24px 24px;
+    width: 300px;
+    box-shadow: 0 4px 16px rgba(60, 60, 120, 0.10);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e0e3f0;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    min-height: 210px;
+    animation: fadeIn 0.7s;
+}
+.challenge-card:hover {
+    box-shadow: 0 12px 36px rgba(60, 60, 120, 0.18);
+    transform: scale(1.035);
+}
+
+.challenge-card h2 {
+    margin: 0 0 8px 0;
+    color: #5f4bb6;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.challenge-card p {
+    color: #444;
+    font-size: 1em;
+    margin-bottom: 12px;
+}
+
+.difficulty {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 8px;
+    font-size: 1em;
+    margin-bottom: 12px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 1px 4px rgba(60, 60, 120, 0.08);
+}
+.difficulty.easy::before {
+    content: '\1F7E2'; /* green circle emoji */
+    font-size: 1.1em;
+}
+.difficulty.medium::before {
+    content: '\1F7E1'; /* yellow circle emoji */
+    font-size: 1.1em;
+}
+.difficulty.hard::before {
+    content: '\1F534'; /* red circle emoji */
+    font-size: 1.1em;
+}
+
+.btn {
+    background: linear-gradient(90deg, #5f4bb6 0%, #6a82fb 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 0;
+    font-size: 1.1em;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(60, 60, 120, 0.10);
+    margin-top: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    width: 100%;
+}
+.btn:hover {
+    background: linear-gradient(90deg, #6a82fb 0%, #5f4bb6 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+.challenge-exec-card {
+    background: #f8f9fd;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(60, 60, 120, 0.08);
+    margin-top: 24px;
+    border: 1px solid #e0e3f0;
+}
+
+label {
+    display: block;
+    margin: 18px 0 6px 0;
+    color: #5f4bb6;
+    font-weight: bold;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0e3f0;
+    margin-bottom: 18px;
+    font-size: 1em;
+    background: #fff;
+    color: #22223b;
+    resize: vertical;
+    font-family: 'Fira Mono', 'Consolas', monospace;
+}
+
+.feedback {
+    background: #e9e7fd;
+    border-left: 6px solid #5f4bb6;
+    padding: 18px;
+    border-radius: 8px;
+    margin-top: 24px;
+}
+
+pre {
+    color: #22223b;
+    font-size: 1em;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'Fira Mono', 'Consolas', monospace;
+}
+
+.back-link {
+    color: #5f4bb6;
+    text-decoration: none;
+    font-size: 1.1em;
+    margin-bottom: 18px;
+    display: inline-block;
+    font-weight: 500;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Progress page styles */
+ul {
+    padding-left: 0;
+    list-style: none;
+}
+ul li {
+    background: #f8f9fd;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 16px;
+    border: 1px solid #e0e3f0;
+    box-shadow: 0 2px 8px rgba(60, 60, 120, 0.06);
+}
+ul li pre {
+    margin-top: 8px;
+    background: #e9e7fd;
+    border-radius: 6px;
+    padding: 8px;
+    color: #5f4bb6;
+}
+
