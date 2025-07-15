@@ -185,6 +185,21 @@
     document.querySelectorAll('.card, .alert, .table').forEach(el => {
       observer.observe(el);
     });
+
+    // Check for theme cookie and set body class
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    const theme = getCookie('theme');
+    if (theme === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('darkModeIcon').textContent = '☀️';
+    } else if (theme === 'light') {
+      document.body.classList.remove('dark-mode');
+      document.getElementById('darkModeIcon').textContent = '🌙';
+    }
   </script>
   
   {% block scripts %}{% endblock %}
