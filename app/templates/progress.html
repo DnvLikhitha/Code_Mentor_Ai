@@ -33,7 +33,7 @@
     <tbody>
       {% for p in progress %}
       <tr>
-        <td>{{ p.challenge_id }}</td>
+        <td>{{ p.challenge.title }}</td>
         <td>{{ p.attempts }}</td>
         <td>{{ p.solved }}</td>
         <td><pre style="white-space:pre-wrap;">{{ p.last_feedback }}</pre></td>
