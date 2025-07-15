@@ -20,7 +20,7 @@
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" class="form-control" required placeholder="Create a password">
+          <input type="password" name="password" id="password" class="form-control" required placeholder="Create a password" pattern=".{8,}" title="Password must be at least 8 characters long.">
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Confirm Password</label>
@@ -28,6 +28,19 @@
         </div>
         <button type="submit" class="btn btn-success w-100">Sign Up</button>
       </form>
+      <script>
+        // Custom validation for password length
+        document.addEventListener('DOMContentLoaded', function() {
+          var passwordInput = document.getElementById('password');
+          passwordInput.addEventListener('input', function() {
+            if (passwordInput.validity.patternMismatch) {
+              passwordInput.setCustomValidity('Password must be at least 8 characters long.');
+            } else {
+              passwordInput.setCustomValidity('');
+            }
+          });
+        });
+      </script>
       <div class="mt-3 text-center">
         <small>Already have an account? <a href="/login">Login</a></small>
       </div>
