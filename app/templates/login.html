@@ -1,36 +1,241 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Login - CodeMentor AI{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-6 col-lg-5">
-    <div class="card p-4 border-0">
-      <h2 class="mb-2 text-center" style="font-weight:700; color:#6c63ff;">Login</h2>
-      <p class="text-center mb-4" style="color:#555;">Access your personalized AI coding workspace.</p>
-      {% if error %}
-  <div class="alert alert-danger text-center py-2 mb-3">{{ error }}</div>
-{% endif %}
-      <form method="POST" action="/login">
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" name="email" class="form-control" required placeholder="you@example.com">
+    <div class="card border-0 shadow-lg">
+      <div class="card-body p-5">
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px;">
+            <span style="font-size: 2.5rem;">🔑</span>
+          </div>
+          <h2 class="text-primary fw-bold mb-2">Welcome Back</h2>
+          <p class="text-muted">Sign in to access your AI coding workspace</p>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" class="form-control" required placeholder="Enter your password">
+        
+        <!-- Error Alert -->
+        {% if error %}
+        <div class="alert alert-danger border-0 d-flex align-items-center mb-4" role="alert">
+          <span class="me-2">⚠️</span>
+          <div>{{ error }}</div>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Log In</button>
-      </form>
-      <div class="mt-3 text-center">
-        <a href="/forgot-password">Forgot Password?</a>
-      </div>
-      <div class="mt-3 text-center">
-        <small>Don't have an account? <a href="/register">Register</a></small>
-      </div>
-      <div class="mt-4 text-center">
-        <img src="https://img.icons8.com/color/48/000000/lock-2.png" width="32" alt="secure">
-        <span class="text-muted small">Your credentials are encrypted and safe.</span>
+        {% endif %}
+        
+        <!-- Login Form -->
+        <form method="POST" action="/login" class="needs-validation" novalidate>
+          <div class="mb-4">
+            <label for="email" class="form-label d-flex align-items-center">
+              <span class="me-2">📧</span>
+              <strong>Email Address</strong>
+            </label>
+            <input type="email" name="email" id="email" class="form-control form-control-lg" 
+                   required placeholder="Enter your email address"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            <div class="invalid-feedback">
+              Please provide a valid email address.
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="password" class="form-label d-flex align-items-center">
+              <span class="me-2">🔒</span>
+              <strong>Password</strong>
+            </label>
+            <div class="position-relative">
+              <input type="password" name="password" id="password" class="form-control form-control-lg" 
+                     required placeholder="Enter your password" minlength="8">
+              <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
+                      onclick="togglePassword()" style="border: none; background: none;">
+                <span id="password-toggle-icon">👁️</span>
+              </button>
+            </div>
+            <div class="invalid-feedback">
+              Password must be at least 8 characters long.
+            </div>
+          </div>
+          
+          <!-- Remember Me & Forgot Password -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember" name="remember">
+              <label class="form-check-label text-muted" for="remember">
+                Remember me
+              </label>
+            </div>
+            <a href="/forgot-password" class="text-decoration-none">
+              Forgot password?
+            </a>
+          </div>
+          
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">
+            <span class="me-2">🚀</span>
+            Sign In
+          </button>
+        </form>
+        
+        <!-- Divider -->
+        <div class="text-center mb-4">
+          <div class="position-relative">
+            <hr class="my-4">
+            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
+              or
+            </span>
+          </div>
+        </div>
+        
+        <!-- Register Link -->
+        <div class="text-center">
+          <p class="text-muted mb-3">Don't have an account?</p>
+          <a href="/register" class="btn btn-outline-secondary btn-lg">
+            <span class="me-2">✨</span>
+            Create New Account
+          </a>
+        </div>
+        
+        <!-- Security Notice -->
+        <div class="mt-4 p-3 bg-light rounded text-center">
+          <div class="d-flex align-items-center justify-content-center text-muted">
+            <span class="me-2">🛡️</span>
+            <small>Your data is encrypted and secure</small>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+.icon-circle {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .icon-circle {
+  transform: scale(1.05);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+  border-color: var(--primary-500);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-600));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-outline-secondary {
+  border: 2px solid var(--secondary-300);
+  color: var(--secondary-700);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background: var(--secondary-100);
+  border-color: var(--secondary-400);
+  color: var(--secondary-800);
+  transform: translateY(-1px);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+}
+
+.position-relative .btn-link {
+  color: var(--secondary-500);
+  text-decoration: none;
+}
+
+.position-relative .btn-link:hover {
+  color: var(--primary-600);
+}
+
+/* Dark mode adjustments */
+body.dark-mode .bg-light {
+  background: var(--secondary-800) !important;
+  color: var(--secondary-300) !important;
+}
+
+body.dark-mode .text-muted {
+  color: var(--secondary-400) !important;
+}
+
+/* Animation */
+.card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+// Form validation
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+// Toggle password visibility
+function togglePassword() {
+  const passwordInput = document.getElementById('password');
+  const toggleIcon = document.getElementById('password-toggle-icon');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    toggleIcon.textContent = '🙈';
+  } else {
+    passwordInput.type = 'password';
+    toggleIcon.textContent = '👁️';
+  }
+}
+
+// Auto-focus first input
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('email').focus();
+});
+
+// Add loading state to submit button
+document.querySelector('form').addEventListener('submit', function() {
+  const submitBtn = this.querySelector('button[type="submit"]');
+  const originalHTML = submitBtn.innerHTML;
+  submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
+  submitBtn.disabled = true;
+  
+  // Re-enable button after 3 seconds (in case of error)
+  setTimeout(() => {
+    submitBtn.innerHTML = originalHTML;
+    submitBtn.disabled = false;
+  }, 3000);
+});
+</script>
 {% endblock %}

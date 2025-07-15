@@ -1,50 +1,261 @@
 {% extends "base.html" %}
 {% block title %}Welcome - CodeMentor AI{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-8">
-    <div class="card p-5 text-center border-0">
-      <h1 class="display-4 mb-3" style="font-weight:700; color:#2d3250;">
-        Welcome to <span style="color:#6c63ff;">CodeMentor AI</span>
-      </h1>
-      <p class="lead mb-4" style="color:#555;">
-        <b>CodeMentor AI</b> is your personal AI-powered coding assistant.<br>
-        <span style="color:#43cea2;">Write, debug, and improve code with instant feedback and smart suggestions.</span>
-      </p>
-      <div class="row mb-4">
-        <div class="col-md-4">
-          <div class="p-3 rounded" style="background:#f6f7fb;">
-            <img src="https://img.icons8.com/color/48/000000/artificial-intelligence.png" alt="AI" width="48">
-            <h5 class="mt-2" style="color:#6c63ff;">AI Code Help</h5>
-            <p class="small">Get explanations, error detection, and improvement tips for your code.</p>
-          </div>
+  <div class="col-lg-10">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+      <div class="hero-container">
+        <h1 class="display-4 mb-4 gradient-text">
+          Welcome to <span class="text-primary">CodeMentor AI</span>
+        </h1>
+        <p class="lead mb-5 text-muted">
+          Your intelligent coding companion powered by advanced AI technology.<br>
+          <span class="text-primary fw-semibold">Write, debug, learn, and excel in programming with personalized guidance.</span>
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+          <a href="/editor" class="btn btn-primary btn-lg px-5 py-3">
+            <span class="me-2">🚀</span>
+            Start Coding Now
+          </a>
+          {% if not session.get("user_id") %}
+          <a href="/register" class="btn btn-outline-secondary btn-lg px-5 py-3">
+            <span class="me-2">✨</span>
+            Create Account
+          </a>
+          {% endif %}
         </div>
-        <div class="col-md-4">
-          <div class="p-3 rounded" style="background:#f6f7fb;">
-            <img src="https://img.icons8.com/color/48/000000/source-code.png" alt="Editor" width="48">
-            <h5 class="mt-2" style="color:#43cea2;">Smart Editor</h5>
-            <p class="small">Write and edit code in a beautiful, distraction-free environment.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="p-3 rounded" style="background:#f6f7fb;">
-            <img src="https://img.icons8.com/color/48/000000/goal.png" alt="Challenges" width="48">
-            <h5 class="mt-2" style="color:#ffc107;">Challenges</h5>
-            <p class="small">Practice coding with real-world challenges and track your progress.</p>
+      </div>
+    </div>
+    
+    <!-- Features Grid -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="card h-100 text-center border-0 shadow-lg">
+          <div class="card-body p-5">
+            <div class="feature-icon mb-4">
+              <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px;">
+                <span style="font-size: 2.5rem;">🤖</span>
+              </div>
+            </div>
+            <h4 class="card-title text-primary mb-3">AI-Powered Analysis</h4>
+            <p class="card-text text-muted">
+              Get instant code explanations, error detection, and intelligent suggestions to improve your programming skills.
+            </p>
+            <ul class="list-unstyled text-start mt-3">
+              <li class="mb-2"><span class="text-success me-2">✓</span>Code explanation</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Error detection</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Smart suggestions</li>
+            </ul>
           </div>
         </div>
       </div>
-      <div>
-        <a class="btn btn-primary btn-lg m-2 px-4" href="/editor">Start Coding</a>
-        <a class="btn btn-outline-secondary btn-lg m-2 px-4" href="/login">Log In</a>
+      
+      <div class="col-md-4">
+        <div class="card h-100 text-center border-0 shadow-lg">
+          <div class="card-body p-5">
+            <div class="feature-icon mb-4">
+              <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px;">
+                <span style="font-size: 2.5rem;">💻</span>
+              </div>
+            </div>
+            <h4 class="card-title text-success mb-3">Smart Code Editor</h4>
+            <p class="card-text text-muted">
+              Write code in a beautiful, feature-rich environment with syntax highlighting and intelligent autocomplete.
+            </p>
+            <ul class="list-unstyled text-start mt-3">
+              <li class="mb-2"><span class="text-success me-2">✓</span>Multi-language support</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Voice-to-code</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Real-time feedback</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="mt-4">
-        <small class="text-muted">
-          <i class="bi bi-shield-lock"></i>
-          Your code and data are private and secure.
-        </small>
+      
+      <div class="col-md-4">
+        <div class="card h-100 text-center border-0 shadow-lg">
+          <div class="card-body p-5">
+            <div class="feature-icon mb-4">
+              <div class="icon-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px;">
+                <span style="font-size: 2.5rem;">🎯</span>
+              </div>
+            </div>
+            <h4 class="card-title text-warning mb-3">Coding Challenges</h4>
+            <p class="card-text text-muted">
+              Practice with real-world coding challenges and track your progress as you level up your skills.
+            </p>
+            <ul class="list-unstyled text-start mt-3">
+              <li class="mb-2"><span class="text-success me-2">✓</span>Progressive difficulty</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Progress tracking</li>
+              <li class="mb-2"><span class="text-success me-2">✓</span>Personalized recommendations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="card border-0 shadow-lg mb-5">
+      <div class="card-body p-5">
+        <div class="row text-center">
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="stat-item">
+              <h3 class="display-6 text-primary mb-2">5+</h3>
+              <p class="text-muted mb-0">Programming Languages</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="stat-item">
+              <h3 class="display-6 text-success mb-2">16+</h3>
+              <p class="text-muted mb-0">Coding Challenges</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="stat-item">
+              <h3 class="display-6 text-warning mb-2">∞</h3>
+              <p class="text-muted mb-0">AI-Powered Insights</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-item">
+              <h3 class="display-6 text-info mb-2">24/7</h3>
+              <p class="text-muted mb-0">Available Support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- How It Works Section -->
+    <div class="text-center mb-5">
+      <h2 class="mb-5 text-primary">How It Works</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="fw-bold">1</span>
+            </div>
+            <h5 class="mb-3">Write Your Code</h5>
+            <p class="text-muted">Use our intelligent editor or speak your code using voice input technology.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="fw-bold">2</span>
+            </div>
+            <h5 class="mb-3">Get AI Analysis</h5>
+            <p class="text-muted">Receive instant feedback, explanations, and suggestions from our AI mentor.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="fw-bold">3</span>
+            </div>
+            <h5 class="mb-3">Learn & Improve</h5>
+            <p class="text-muted">Apply insights, solve challenges, and track your programming journey.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Security & Trust Section -->
+    <div class="card border-0 shadow-lg glass">
+      <div class="card-body p-5 text-center">
+        <div class="mb-4">
+          <span style="font-size: 3rem;">🔒</span>
+        </div>
+        <h4 class="text-primary mb-3">Your Code is Safe & Secure</h4>
+        <p class="text-muted mb-4">
+          We prioritize your privacy and security. Your code and data are encrypted, 
+          never shared, and processed with the highest security standards.
+        </p>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="d-flex flex-wrap justify-content-center gap-4 text-muted">
+              <div class="d-flex align-items-center">
+                <span class="me-2">🛡️</span>
+                <small>End-to-End Encryption</small>
+              </div>
+              <div class="d-flex align-items-center">
+                <span class="me-2">🔐</span>
+                <small>Private by Design</small>
+              </div>
+              <div class="d-flex align-items-center">
+                <span class="me-2">⚡</span>
+                <small>Lightning Fast</small>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+.hero-container {
+  padding: 2rem 0;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.feature-icon {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .feature-icon {
+  transform: translateY(-5px);
+}
+
+.step-item {
+  transition: transform 0.3s ease;
+}
+
+.step-item:hover {
+  transform: translateY(-5px);
+}
+
+.step-number {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.step-item:hover .step-number {
+  transform: scale(1.1);
+}
+
+.stat-item h3 {
+  font-weight: 800;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2.5rem;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 2rem;
+  }
+  
+  .card-body {
+    padding: 2rem !important;
+  }
+}
+</style>
 {% endblock %}
