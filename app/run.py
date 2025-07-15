@@ -200,7 +200,9 @@ def register():
         password = request.form["password"]
         confirm = request.form["password"]
 
-        if User_details.query.filter_by(email=email).first():
+        if len(password) < 8:
+            error = "Password must be at least 8 characters long."
+        elif User_details.query.filter_by(email=email).first():
             error = "Email already registered."
         elif password != confirm:
             error = "Passwords do not match."
