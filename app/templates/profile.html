@@ -374,7 +374,16 @@ body.dark-mode .bg-light {
 
 <script>
 // Store snippets data for JavaScript functions
-const snippetsData = {{ user.snippets|tojson }};
+const snippetsData = [
+  {% for snippet in user.snippets %}
+  {
+    id: {{ snippet.id }},
+    code: {{ snippet.code|tojson }},
+    language: {{ snippet.language|tojson }},
+    explanation: {{ snippet.explanation|tojson }}
+  }{% if not loop.last %},{% endif %}
+  {% endfor %}
+];
 
 // Delete snippet function
 function deleteSnippet(snippetId) {
