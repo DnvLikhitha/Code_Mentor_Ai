@@ -3,28 +3,42 @@
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-lg-10">
+  <div class="col-lg-12">
     <!-- Hero Section -->
     <div class="text-center mb-5">
-      <div class="hero-container">
-        <h1 class="display-4 mb-4 gradient-text">
-          Welcome to <span class="text-primary">CodeMentor AI</span>
+      <div class="hero-container py-5">
+        <div class="mb-4">
+          <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-4" style="width: 120px; height: 120px;">
+            <span style="font-size: 4rem;">🤖</span>
+          </div>
+        </div>
+        <h1 class="display-4 mb-4 text-gradient-primary fw-bold">
+          Welcome to CodeMentor AI
         </h1>
-        <p class="lead mb-5 text-muted">
+        <p class="lead mb-5 text-muted mx-auto" style="max-width: 600px;">
           Your intelligent coding companion powered by advanced AI technology.<br>
           <span class="text-primary fw-semibold">Write, debug, learn, and excel in programming with personalized guidance.</span>
         </p>
         
         <!-- CTA Buttons -->
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+          {% if session.get("user_id") %}
           <a href="/editor" class="btn btn-primary btn-lg px-5 py-3">
             <span class="me-2">🚀</span>
             Start Coding Now
           </a>
-          {% if not session.get("user_id") %}
-          <a href="/register" class="btn btn-outline-secondary btn-lg px-5 py-3">
-            <span class="me-2">✨</span>
-            Create Account
+          <a href="/challenges" class="btn btn-outline-secondary btn-lg px-5 py-3">
+            <span class="me-2">🎯</span>
+            Try Challenges
+          </a>
+          {% else %}
+          <a href="/register" class="btn btn-primary btn-lg px-5 py-3">
+            <span class="me-2">🚀</span>
+            Get Started Free
+          </a>
+          <a href="/login" class="btn btn-outline-secondary btn-lg px-5 py-3">
+            <span class="me-2">🔑</span>
+            Sign In
           </a>
           {% endif %}
         </div>
@@ -33,7 +47,7 @@
     
     <!-- Features Grid -->
     <div class="row g-4 mb-5">
-      <div class="col-md-4">
+      <div class="col-lg-4 col-md-6">
         <div class="card h-100 text-center border-0 shadow-lg">
           <div class="card-body p-5">
             <div class="feature-icon mb-4">
@@ -41,20 +55,35 @@
                 <span style="font-size: 2.5rem;">🤖</span>
               </div>
             </div>
-            <h4 class="card-title text-primary mb-3">AI-Powered Analysis</h4>
-            <p class="card-text text-muted">
+            <h4 class="card-title text-primary mb-3 fw-bold">AI-Powered Analysis</h4>
+            <p class="card-text text-muted mb-4">
               Get instant code explanations, error detection, and intelligent suggestions to improve your programming skills.
             </p>
-            <ul class="list-unstyled text-start mt-3">
-              <li class="mb-2"><span class="text-success me-2">✓</span>Code explanation</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Error detection</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Smart suggestions</li>
-            </ul>
+            <div class="feature-list text-start">
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Code explanation & documentation</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Real-time error detection</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Smart code improvements</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="col-md-4">
+      <div class="col-lg-4 col-md-6">
         <div class="card h-100 text-center border-0 shadow-lg">
           <div class="card-body p-5">
             <div class="feature-icon mb-4">
@@ -62,20 +91,35 @@
                 <span style="font-size: 2.5rem;">💻</span>
               </div>
             </div>
-            <h4 class="card-title text-success mb-3">Smart Code Editor</h4>
-            <p class="card-text text-muted">
+            <h4 class="card-title text-success mb-3 fw-bold">Smart Code Editor</h4>
+            <p class="card-text text-muted mb-4">
               Write code in a beautiful, feature-rich environment with syntax highlighting and intelligent autocomplete.
             </p>
-            <ul class="list-unstyled text-start mt-3">
-              <li class="mb-2"><span class="text-success me-2">✓</span>Multi-language support</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Voice-to-code</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Real-time feedback</li>
-            </ul>
+            <div class="feature-list text-start">
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Multi-language support</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Voice-to-code technology</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Real-time AI feedback</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="col-md-4">
+      <div class="col-lg-4 col-md-6">
         <div class="card h-100 text-center border-0 shadow-lg">
           <div class="card-body p-5">
             <div class="feature-icon mb-4">
@@ -83,15 +127,30 @@
                 <span style="font-size: 2.5rem;">🎯</span>
               </div>
             </div>
-            <h4 class="card-title text-warning mb-3">Coding Challenges</h4>
-            <p class="card-text text-muted">
+            <h4 class="card-title text-warning mb-3 fw-bold">Coding Challenges</h4>
+            <p class="card-text text-muted mb-4">
               Practice with real-world coding challenges and track your progress as you level up your skills.
             </p>
-            <ul class="list-unstyled text-start mt-3">
-              <li class="mb-2"><span class="text-success me-2">✓</span>Progressive difficulty</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Progress tracking</li>
-              <li class="mb-2"><span class="text-success me-2">✓</span>Personalized recommendations</li>
-            </ul>
+            <div class="feature-list text-start">
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Progressive difficulty levels</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Detailed progress tracking</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 24px; height: 24px;">
+                  <span style="font-size: 0.8rem;">✓</span>
+                </div>
+                <span class="text-muted">Personalized recommendations</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -100,29 +159,45 @@
     <!-- Stats Section -->
     <div class="card border-0 shadow-lg mb-5">
       <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <h3 class="text-gradient-primary fw-bold mb-2">Trusted by Developers Worldwide</h3>
+          <p class="text-muted">Join thousands of developers who are accelerating their coding journey</p>
+        </div>
         <div class="row text-center">
           <div class="col-md-3 mb-4 mb-md-0">
             <div class="stat-item">
-              <h3 class="display-6 text-primary mb-2">5+</h3>
-              <p class="text-muted mb-0">Programming Languages</p>
+              <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+                <span style="font-size: 1.5rem;">🔤</span>
+              </div>
+              <h3 class="display-6 text-primary mb-2 fw-bold">5+</h3>
+              <p class="text-muted mb-0 fw-medium">Programming Languages</p>
             </div>
           </div>
           <div class="col-md-3 mb-4 mb-md-0">
             <div class="stat-item">
-              <h3 class="display-6 text-success mb-2">16+</h3>
-              <p class="text-muted mb-0">Coding Challenges</p>
+              <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+                <span style="font-size: 1.5rem;">🎯</span>
+              </div>
+              <h3 class="display-6 text-success mb-2 fw-bold">16+</h3>
+              <p class="text-muted mb-0 fw-medium">Coding Challenges</p>
             </div>
           </div>
           <div class="col-md-3 mb-4 mb-md-0">
             <div class="stat-item">
-              <h3 class="display-6 text-warning mb-2">∞</h3>
-              <p class="text-muted mb-0">AI-Powered Insights</p>
+              <div class="icon-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+                <span style="font-size: 1.5rem;">🤖</span>
+              </div>
+              <h3 class="display-6 text-warning mb-2 fw-bold">∞</h3>
+              <p class="text-muted mb-0 fw-medium">AI-Powered Insights</p>
             </div>
           </div>
           <div class="col-md-3">
             <div class="stat-item">
-              <h3 class="display-6 text-info mb-2">24/7</h3>
-              <p class="text-muted mb-0">Available Support</p>
+              <div class="icon-circle bg-info bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+                <span style="font-size: 1.5rem;">⚡</span>
+              </div>
+              <h3 class="display-6 text-info mb-2 fw-bold">24/7</h3>
+              <p class="text-muted mb-0 fw-medium">Available Support</p>
             </div>
           </div>
         </div>
@@ -131,33 +206,47 @@
     
     <!-- How It Works Section -->
     <div class="text-center mb-5">
-      <h2 class="mb-5 text-primary">How It Works</h2>
+      <div class="mb-5">
+        <h2 class="text-gradient-primary fw-bold mb-3">How It Works</h2>
+        <p class="lead text-muted mx-auto" style="max-width: 500px;">
+          Get started with CodeMentor AI in three simple steps
+        </p>
+      </div>
       <div class="row g-4">
         <div class="col-md-4">
           <div class="step-item">
-            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-              <span class="fw-bold">1</span>
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <span class="fw-bold fs-3">1</span>
             </div>
-            <h5 class="mb-3">Write Your Code</h5>
-            <p class="text-muted">Use our intelligent editor or speak your code using voice input technology.</p>
+            <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+              <span style="font-size: 1.5rem;">✍️</span>
+            </div>
+            <h5 class="mb-3 fw-bold">Write Your Code</h5>
+            <p class="text-muted">Use our intelligent editor or speak your code using advanced voice input technology.</p>
           </div>
         </div>
         <div class="col-md-4">
           <div class="step-item">
-            <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-              <span class="fw-bold">2</span>
+            <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <span class="fw-bold fs-3">2</span>
             </div>
-            <h5 class="mb-3">Get AI Analysis</h5>
-            <p class="text-muted">Receive instant feedback, explanations, and suggestions from our AI mentor.</p>
+            <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+              <span style="font-size: 1.5rem;">🔍</span>
+            </div>
+            <h5 class="mb-3 fw-bold">Get AI Analysis</h5>
+            <p class="text-muted">Receive instant feedback, explanations, and suggestions from our advanced AI mentor.</p>
           </div>
         </div>
         <div class="col-md-4">
           <div class="step-item">
-            <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-              <span class="fw-bold">3</span>
+            <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <span class="fw-bold fs-3">3</span>
             </div>
-            <h5 class="mb-3">Learn & Improve</h5>
-            <p class="text-muted">Apply insights, solve challenges, and track your programming journey.</p>
+            <div class="icon-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+              <span style="font-size: 1.5rem;">📈</span>
+            </div>
+            <h5 class="mb-3 fw-bold">Learn & Improve</h5>
+            <p class="text-muted">Apply insights, solve challenges, and track your programming journey with detailed analytics.</p>
           </div>
         </div>
       </div>
@@ -167,27 +256,41 @@
     <div class="card border-0 shadow-lg glass">
       <div class="card-body p-5 text-center">
         <div class="mb-4">
-          <span style="font-size: 3rem;">🔒</span>
+          <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 100px; height: 100px;">
+            <span style="font-size: 3rem;">🔒</span>
+          </div>
         </div>
-        <h4 class="text-primary mb-3">Your Code is Safe & Secure</h4>
-        <p class="text-muted mb-4">
+        <h4 class="text-gradient-primary mb-3 fw-bold">Your Code is Safe & Secure</h4>
+        <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">
           We prioritize your privacy and security. Your code and data are encrypted, 
           never shared, and processed with the highest security standards.
         </p>
         <div class="row justify-content-center">
-          <div class="col-md-8">
-            <div class="d-flex flex-wrap justify-content-center gap-4 text-muted">
-              <div class="d-flex align-items-center">
-                <span class="me-2">🛡️</span>
-                <small>End-to-End Encryption</small>
+          <div class="col-md-10">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-2" style="width: 48px; height: 48px;">
+                    <span style="font-size: 1.2rem;">🛡️</span>
+                  </div>
+                  <small class="fw-medium">End-to-End Encryption</small>
+                </div>
               </div>
-              <div class="d-flex align-items-center">
-                <span class="me-2">🔐</span>
-                <small>Private by Design</small>
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-2" style="width: 48px; height: 48px;">
+                    <span style="font-size: 1.2rem;">🔐</span>
+                  </div>
+                  <small class="fw-medium">Private by Design</small>
+                </div>
               </div>
-              <div class="d-flex align-items-center">
-                <span class="me-2">⚡</span>
-                <small>Lightning Fast</small>
+              <div class="col-md-4">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="icon-circle bg-warning bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-2" style="width: 48px; height: 48px;">
+                    <span style="font-size: 1.2rem;">⚡</span>
+                  </div>
+                  <small class="fw-medium">Lightning Fast</small>
+                </div>
               </div>
             </div>
           </div>
@@ -199,49 +302,96 @@
 
 <style>
 .hero-container {
-  padding: 2rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+.hero-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.feature-icon {
+  transition: all var(--transition-normal);
+}
+
+.card:hover .feature-icon {
+  transform: translateY(-8px) scale(1.05);
+}
+
+.step-item {
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.step-item:hover {
+  transform: translateY(-8px);
+}
+
+.step-number {
+  font-size: 1.5rem;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.step-number::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left var(--transition-normal);
+}
+
+.step-item:hover .step-number::before {
+  left: 100%;
+}
+
+.stat-item {
+  transition: all var(--transition-normal);
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-item h3 {
+  font-weight: 800;
+  background: linear-gradient(135deg, currentColor, currentColor);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.feature-icon {
-  transition: transform 0.3s ease;
-}
-
-.card:hover .feature-icon {
-  transform: translateY(-5px);
-}
-
-.step-item {
-  transition: transform 0.3s ease;
-}
-
-.step-item:hover {
-  transform: translateY(-5px);
-}
-
-.step-number {
-  font-size: 1.5rem;
-  transition: transform 0.3s ease;
-}
-
-.step-item:hover .step-number {
-  transform: scale(1.1);
-}
-
-.stat-item h3 {
-  font-weight: 800;
-}
-
 .glass {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature-list {
+  background: rgba(248, 250, 252, 0.5);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+body.dark-mode .feature-list {
+  background: rgba(30, 41, 59, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -250,11 +400,21 @@
   }
   
   .btn-lg {
-    padding: 0.75rem 2rem;
+    padding: var(--space-3) var(--space-6);
+    font-size: 1rem;
   }
   
   .card-body {
-    padding: 2rem !important;
+    padding: var(--space-4) !important;
+  }
+  
+  .step-number {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  .step-number .fw-bold {
+    font-size: 1.25rem !important;
   }
 }
 </style>

@@ -24,17 +24,17 @@
       <div class="card-header bg-transparent border-0 p-4">
         <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
-            <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 50px; height: 50px;">
-              <span style="font-size: 1.5rem;">🤖</span>
+            <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-4" style="width: 60px; height: 60px;">
+              <span style="font-size: 2rem;">🤖</span>
             </div>
             <div>
-              <h2 class="mb-1 text-primary fw-bold">AI Code Editor</h2>
+              <h2 class="mb-1 text-gradient-primary fw-bold">AI Code Editor</h2>
               <p class="text-muted mb-0">Intelligent coding assistant powered by advanced AI</p>
             </div>
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-outline-secondary btn-sm" onclick="clearEditor()" title="Clear Editor">
-              <span>🗑️</span>
+              <span class="me-1">🗑️</span> Clear
             </button>
           </div>
         </div>
@@ -42,12 +42,14 @@
       
       <div class="card-body p-4">
         <!-- Voice Input Notice -->
-        <div class="alert alert-info border-0 mb-4" style="background: linear-gradient(135deg, var(--primary-50), var(--secondary-50));">
+        <div class="alert alert-info border-0 mb-4" style="background: linear-gradient(135deg, var(--info-50), var(--primary-50));">
           <div class="d-flex align-items-center">
-            <span class="me-2" style="font-size: 1.2rem;">🎤</span>
+            <div class="icon-circle bg-info bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 40px; height: 40px;">
+              <span style="font-size: 1.2rem;">🎤</span>
+            </div>
             <div>
-              <strong>Voice Input Available!</strong>
-              <p class="mb-0 mt-1">Click the microphone buttons to speak your prompts or describe code you want to generate. Perfect for hands-free coding!</p>
+              <h6 class="mb-1 fw-bold text-info">Voice Input Available!</h6>
+              <p class="mb-0 text-muted">Click the microphone buttons to speak your prompts or describe code you want to generate. Perfect for hands-free coding!</p>
             </div>
           </div>
         </div>
@@ -55,7 +57,7 @@
         <form id="codeForm">
           <!-- Prompt Section -->
           <div class="mb-4">
-            <label for="prompt" class="form-label d-flex align-items-center">
+            <label for="prompt" class="form-label">
               <span class="me-2">💭</span>
               <strong>AI Prompt</strong>
               <small class="text-muted ms-2">(Describe what you want the AI to help with)</small>
@@ -75,7 +77,7 @@
           <!-- Language Selection -->
           <div class="row mb-4">
             <div class="col-md-6">
-              <label for="language" class="form-label d-flex align-items-center">
+              <label for="language" class="form-label">
                 <span class="me-2">⚙️</span>
                 <strong>Programming Language</strong>
               </label>
@@ -88,7 +90,7 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label d-flex align-items-center">
+              <label class="form-label">
                 <span class="me-2">🎨</span>
                 <strong>Editor Theme</strong>
               </label>
@@ -103,7 +105,7 @@
           <!-- Code Editor Section -->
           <div class="mb-4">
             <div class="d-flex align-items-center justify-content-between mb-3">
-              <label for="code" class="form-label d-flex align-items-center mb-0">
+              <label for="code" class="form-label mb-0">
                 <span class="me-2">💻</span>
                 <strong>Code Editor</strong>
               </label>
@@ -156,19 +158,26 @@
         
         <!-- AI Response Section -->
         <div class="ai-response-container">
-          <div class="d-flex align-items-center mb-3">
-            <span class="me-2" style="font-size: 1.5rem;">🤖</span>
-            <h4 class="mb-0 text-primary fw-bold">AI Response</h4>
-            <div class="ms-auto">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+              <div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 40px; height: 40px;">
+                <span style="font-size: 1.2rem;">🤖</span>
+              </div>
+              <h4 class="mb-0 text-gradient-primary fw-bold">AI Response</h4>
+            </div>
+            <div class="d-flex gap-2">
               <button class="btn btn-outline-secondary btn-sm" onclick="copyResponse()" title="Copy Response">
-                <span>📋</span>
+                <span class="me-1">📋</span> Copy
               </button>
             </div>
           </div>
           <div id="ai-response" class="markdown-body">
-            <div class="text-center text-muted py-4">
-              <span style="font-size: 2rem;">💭</span>
-              <p class="mt-2 mb-0">Ask me anything about your code or request help with programming!</p>
+            <div class="text-center text-muted py-5">
+              <div class="icon-circle bg-secondary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px;">
+                <span style="font-size: 2.5rem;">💭</span>
+              </div>
+              <h5 class="mb-2">Ready to Help!</h5>
+              <p class="mb-0">Ask me anything about your code or request help with programming!</p>
             </div>
           </div>
         </div>
@@ -179,9 +188,11 @@
             <a href="/challenges" class="btn btn-outline-primary btn-sm">
               <span class="me-1">🎯</span> Try Challenges
             </a>
-            
             <a href="/profile" class="btn btn-outline-success btn-sm">
               <span class="me-1">👤</span> View Profile
+            </a>
+            <a href="/my_progress" class="btn btn-outline-info btn-sm">
+              <span class="me-1">📊</span> My Progress
             </a>
           </div>
         </div>
@@ -193,38 +204,54 @@
 <style>
 .editor-container {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  background: white;
 }
 
 #code-editor {
   min-height: 400px;
   font-family: var(--font-mono);
+  border-radius: var(--radius-xl) !important;
 }
 
 #code-editor .CodeMirror {
   height: 400px;
   font-size: 14px;
-  line-height: 1.5;
-  border-radius: var(--radius-lg);
+  line-height: 1.6;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-mono);
 }
 
 .ai-response-container {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--secondary-200);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  margin-top: var(--space-6);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  margin-top: var(--space-8);
   box-shadow: var(--shadow-lg);
   min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-response-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-500), var(--info-500), var(--success-500));
 }
 
 .markdown-body {
   background: transparent !important;
   font-size: 1rem;
   line-height: 1.6;
+  color: var(--secondary-700);
 }
 
 .markdown-body pre {
@@ -234,6 +261,7 @@
   padding: var(--space-4);
   overflow-x: auto;
   border: 1px solid var(--secondary-700);
+  box-shadow: var(--shadow-inner);
 }
 
 .markdown-body code {
@@ -242,6 +270,7 @@
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   font-size: 0.9em;
+  font-weight: 500;
 }
 
 .markdown-body pre code {
@@ -250,12 +279,26 @@
   padding: 0;
 }
 
+.markdown-body h1, .markdown-body h2, .markdown-body h3, 
+.markdown-body h4, .markdown-body h5, .markdown-body h6 {
+  color: var(--primary-600) !important;
+  font-weight: 700;
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--primary-500);
+  background: var(--primary-50);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-4) 0;
+  border-radius: var(--radius-md);
+}
+
 .icon-circle {
-  transition: transform 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .card:hover .icon-circle {
-  transform: scale(1.1);
+  transform: scale(1.05) rotate(5deg);
 }
 
 /* Dark mode adjustments */
@@ -273,8 +316,24 @@ body.dark-mode .markdown-body code {
   color: var(--secondary-200) !important;
 }
 
+body.dark-mode .markdown-body h1, body.dark-mode .markdown-body h2, 
+body.dark-mode .markdown-body h3, body.dark-mode .markdown-body h4, 
+body.dark-mode .markdown-body h5, body.dark-mode .markdown-body h6 {
+  color: var(--primary-400) !important;
+}
+
+body.dark-mode .markdown-body blockquote {
+  background: rgba(99, 102, 241, 0.1);
+  border-left-color: var(--primary-400);
+}
+
 body.dark-mode #code-editor {
   border-color: var(--secondary-600);
+  background: var(--secondary-800);
+}
+
+body.dark-mode .editor-container {
+  background: var(--secondary-800);
 }
 
 /* Responsive design */
@@ -290,6 +349,10 @@ body.dark-mode #code-editor {
   .ai-response-container {
     padding: var(--space-4);
   }
+  
+  .card-body {
+    padding: var(--space-4) !important;
+  }
 }
 
 /* Loading animation */
@@ -301,6 +364,30 @@ body.dark-mode #code-editor {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
+}
+
+/* Button hover effects */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::after {
+  width: 300px;
+  height: 300px;
 }
 </style>
 
@@ -319,7 +406,16 @@ document.addEventListener('DOMContentLoaded', function() {
     autoCloseBrackets: true,
     matchBrackets: true,
     foldGutter: true,
-    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    extraKeys: {
+      "Ctrl-Space": "autocomplete",
+      "F11": function(cm) {
+        cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+      },
+      "Esc": function(cm) {
+        if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+      }
+    }
   });
   
   // Set initial theme based on dark mode
@@ -354,14 +450,16 @@ function clearEditor() {
     editor.setValue('');
     document.getElementById('prompt').value = '';
     document.getElementById('ai-response').innerHTML = `
-      <div class="text-center text-muted py-4">
-        <span style="font-size: 2rem;">💭</span>
-        <p class="mt-2 mb-0">Ask me anything about your code or request help with programming!</p>
+      <div class="text-center text-muted py-5">
+        <div class="icon-circle bg-secondary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px;">
+          <span style="font-size: 2.5rem;">💭</span>
+        </div>
+        <h5 class="mb-2">Ready to Help!</h5>
+        <p class="mb-0">Ask me anything about your code or request help with programming!</p>
       </div>
     `;
   }
 }
-
 
 // Copy response to clipboard
 function copyResponse() {
@@ -370,10 +468,14 @@ function copyResponse() {
     // Show temporary success message
     const btn = event.target.closest('button');
     const originalHTML = btn.innerHTML;
-    btn.innerHTML = '<span>✅</span>';
+    btn.innerHTML = '<span class="me-1">✅</span> Copied!';
+    btn.classList.remove('btn-outline-secondary');
+    btn.classList.add('btn-success');
     setTimeout(() => {
       btn.innerHTML = originalHTML;
-    }, 1000);
+      btn.classList.remove('btn-success');
+      btn.classList.add('btn-outline-secondary');
+    }, 1500);
   });
 }
 
@@ -392,7 +494,7 @@ function sendCode(action) {
   button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Processing...';
   button.disabled = true;
   
-  showResponse('<div class="loading-pulse">🤖 Analyzing your code...</div>', 'info');
+  showResponse('<div class="loading-pulse text-center py-4"><div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;"><span style="font-size: 1.5rem;">🤖</span></div><h6>Analyzing your code...</h6></div>', 'info');
   
   fetch(`/api/${action}`, {
     method: "POST",
@@ -439,13 +541,20 @@ function saveSnippet() {
   })
   .then(res => res.json())
   .then(data => {
-    alert(data.message || "Snippet saved successfully!");
+    // Show success message
+    button.innerHTML = '<span class="me-1">✅</span> Saved!';
+    button.classList.remove('btn-success');
+    button.classList.add('btn-outline-success');
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('btn-outline-success');
+      button.classList.add('btn-success');
+    }, 2000);
   })
   .catch(error => {
     alert(`Error saving snippet: ${error.message}`);
   })
   .finally(() => {
-    button.innerHTML = originalHTML;
     button.disabled = false;
   });
 }
@@ -455,9 +564,13 @@ function showResponse(content, type = 'success') {
   const responseDiv = document.getElementById('ai-response');
   
   if (type === 'warning' || type === 'error' || type === 'info') {
+    const alertClass = type === 'error' ? 'danger' : type;
     responseDiv.innerHTML = `
-      <div class="alert alert-${type === 'error' ? 'danger' : type} border-0">
-        ${content}
+      <div class="alert alert-${alertClass} border-0 d-flex align-items-center">
+        <div class="icon-circle bg-${alertClass} bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle me-3" style="width: 32px; height: 32px;">
+          <span style="font-size: 1rem;">${type === 'warning' ? '⚠️' : type === 'error' ? '❌' : 'ℹ️'}</span>
+        </div>
+        <div>${content}</div>
       </div>
     `;
   } else {
@@ -661,7 +774,7 @@ document.getElementById('ask-btn').onclick = async function() {
   button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Thinking...';
   button.disabled = true;
   
-  showResponse('🤖 Processing your request...', 'info');
+  showResponse('<div class="loading-pulse text-center py-4"><div class="icon-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;"><span style="font-size: 1.5rem;">🤖</span></div><h6>Processing your request...</h6></div>', 'info');
   
   try {
     const res = await fetch('/api/prompt-to-code', {

@@ -1,6 +1,6 @@
-/* Professional Challenges Page Styling */
+/* Modern Professional Challenges Design */
 :root {
-  /* Color Palette */
+  /* Enhanced Color Palette */
   --primary-50: #f0f4ff;
   --primary-100: #e0e9ff;
   --primary-200: #c7d8ff;
@@ -24,16 +24,22 @@
   --secondary-900: #0f172a;
   
   --success-50: #f0fdf4;
+  --success-100: #dcfce7;
   --success-500: #22c55e;
   --success-600: #16a34a;
+  --success-700: #15803d;
   
   --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
   --warning-500: #f59e0b;
   --warning-600: #d97706;
+  --warning-700: #b45309;
   
   --error-50: #fef2f2;
+  --error-100: #fee2e2;
   --error-500: #ef4444;
   --error-600: #dc2626;
+  --error-700: #b91c1c;
   
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -53,11 +59,13 @@
   --space-20: 5rem;
   
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   
   /* Border Radius */
   --radius-sm: 0.375rem;
@@ -65,21 +73,29 @@
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 body {
   font-family: var(--font-sans);
-  background: linear-gradient(135deg, var(--secondary-50) 0%, var(--primary-50) 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   color: var(--secondary-800);
   margin: 0;
   padding: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
 .container {
@@ -112,7 +128,7 @@ h1::after {
   width: 80px;
   height: 4px;
   background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
 }
 
 /* Challenge Grid */
@@ -125,16 +141,16 @@ h1::after {
 
 /* Challenge Cards */
 .challenge-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--secondary-200);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: var(--radius-2xl);
   padding: var(--space-8);
   box-shadow: var(--shadow-lg);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
-  min-height: 280px;
+  min-height: 320px;
   display: flex;
   flex-direction: column;
 }
@@ -146,15 +162,15 @@ h1::after {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-400));
+  background: linear-gradient(135deg, var(--primary-500), var(--info-500), var(--success-500));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-normal);
 }
 
 .challenge-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: var(--shadow-2xl);
-  border-color: var(--primary-300);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 .challenge-card:hover::before {
@@ -187,7 +203,7 @@ h1::after {
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: var(--space-6);
@@ -268,11 +284,15 @@ h1::after {
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-normal);
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
   letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
 }
 
 .btn::before {
@@ -283,13 +303,15 @@ h1::after {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  transition: left var(--transition-normal);
 }
 
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
   background: linear-gradient(135deg, var(--primary-700), var(--primary-600));
+  color: white;
+  text-decoration: none;
 }
 
 .btn:hover::before {
@@ -305,7 +327,7 @@ h1::after {
   background: linear-gradient(135deg, var(--success-500), var(--success-400));
   color: white;
   padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -315,13 +337,25 @@ h1::after {
 
 /* Challenge Execution Page */
 .challenge-exec-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--secondary-200);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: var(--radius-2xl);
   padding: var(--space-10);
   box-shadow: var(--shadow-xl);
   margin-top: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+.challenge-exec-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-500), var(--info-500), var(--success-500));
 }
 
 .challenge-exec-card h1 {
@@ -344,6 +378,9 @@ label {
   margin: var(--space-6) 0 var(--space-3) 0;
   font-size: 1rem;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 select,
@@ -354,18 +391,20 @@ textarea {
   border-radius: var(--radius-lg);
   font-size: 1rem;
   color: var(--secondary-800);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   font-family: var(--font-mono);
+  box-shadow: var(--shadow-xs);
 }
 
 select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary-400);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-sm);
   background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
 }
 
 textarea {
@@ -379,7 +418,7 @@ textarea {
   border: 1px solid var(--secondary-300);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
   background: white;
 }
 
@@ -399,6 +438,19 @@ textarea {
   padding: var(--space-8);
   margin-top: var(--space-8);
   box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-500), var(--info-500));
 }
 
 .feedback h3 {
@@ -429,6 +481,7 @@ textarea {
   overflow-x: auto;
   font-family: var(--font-mono);
   font-size: 0.9rem;
+  box-shadow: var(--shadow-inner);
 }
 
 #feedback-markdown code {
@@ -438,6 +491,7 @@ textarea {
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.9em;
+  font-weight: 500;
 }
 
 #feedback-markdown pre code {
@@ -456,20 +510,29 @@ textarea {
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: var(--space-6);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.1);
 }
 
 .back-link:hover {
   background: var(--primary-50);
   color: var(--primary-700);
   transform: translateX(-4px);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .back-link::before {
   content: '←';
   font-size: 1.2em;
+  transition: transform var(--transition-fast);
+}
+
+.back-link:hover::before {
+  transform: translateX(-2px);
 }
 
 /* Button Variants */
@@ -480,6 +543,7 @@ textarea {
 
 .btn-success:hover {
   background: linear-gradient(135deg, var(--success-700), var(--success-600));
+  color: white;
 }
 
 /* Progress Page Styles */
@@ -490,14 +554,14 @@ ul {
 }
 
 ul li {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--secondary-200);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin-bottom: var(--space-4);
   box-shadow: var(--shadow-md);
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 ul li:hover {
@@ -516,11 +580,12 @@ ul li pre {
   font-family: var(--font-mono);
   font-size: 0.9rem;
   overflow-x: auto;
+  box-shadow: var(--shadow-inner);
 }
 
 /* Dark Mode */
 body.dark-mode {
-  background: linear-gradient(135deg, var(--secondary-900) 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, var(--secondary-900) 0%, #0f172a 50%, #1e293b 100%);
   color: var(--secondary-200);
 }
 
@@ -528,7 +593,7 @@ body.dark-mode .container,
 body.dark-mode .card,
 body.dark-mode .challenge-card,
 body.dark-mode .challenge-exec-card {
-  background: rgba(30, 41, 59, 0.9);
+  background: rgba(30, 41, 59, 0.95);
   border-color: var(--secondary-700);
   color: var(--secondary-200);
 }
@@ -554,26 +619,26 @@ body.dark-mode .challenge-card p {
 }
 
 body.dark-mode .difficulty.easy {
-  background: rgba(34, 197, 94, 0.1);
+  background: rgba(34, 197, 94, 0.15);
   color: var(--success-400);
   border-color: rgba(34, 197, 94, 0.3);
 }
 
 body.dark-mode .difficulty.medium {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(245, 158, 11, 0.15);
   color: var(--warning-400);
   border-color: rgba(245, 158, 11, 0.3);
 }
 
 body.dark-mode .difficulty.hard {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   color: var(--error-400);
   border-color: rgba(239, 68, 68, 0.3);
 }
 
 body.dark-mode select,
 body.dark-mode textarea {
-  background: rgba(30, 41, 59, 0.8);
+  background: rgba(30, 41, 59, 0.9);
   border-color: var(--secondary-600);
   color: var(--secondary-200);
 }
@@ -582,7 +647,7 @@ body.dark-mode select:focus,
 body.dark-mode textarea:focus {
   background: rgba(30, 41, 59, 0.95);
   border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), var(--shadow-sm);
 }
 
 body.dark-mode #code-editor {
@@ -604,7 +669,7 @@ body.dark-mode #feedback-markdown {
 }
 
 body.dark-mode ul li {
-  background: rgba(30, 41, 59, 0.9);
+  background: rgba(30, 41, 59, 0.95);
   border-color: var(--secondary-700);
 }
 
@@ -622,7 +687,18 @@ body.dark-mode label {
   color: var(--secondary-300);
 }
 
-/* Animations */
+body.dark-mode .back-link {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
+  color: var(--primary-400);
+}
+
+body.dark-mode .back-link:hover {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--primary-300);
+}
+
+/* Enhanced Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -642,6 +718,17 @@ body.dark-mode label {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
