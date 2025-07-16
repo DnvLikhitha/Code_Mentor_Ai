@@ -36,9 +36,6 @@
             <button class="btn btn-outline-secondary btn-sm" onclick="clearEditor()" title="Clear Editor">
               <span>🗑️</span>
             </button>
-            <button class="btn btn-outline-secondary btn-sm" onclick="toggleFullscreen()" title="Toggle Fullscreen">
-              <span>⛶</span>
-            </button>
           </div>
         </div>
       </div>
@@ -114,9 +111,6 @@
                 <button id="code-mic-btn" class="btn btn-outline-secondary btn-sm" type="button" title="Voice to Code">
                   <span id="code-mic-icon">🎤</span> Voice to Code
                 </button>
-                <button class="btn btn-outline-secondary btn-sm" onclick="formatCode()" title="Format Code">
-                  <span>🎨</span> Format
-                </button>
               </div>
             </div>
             <div class="editor-container">
@@ -185,9 +179,7 @@
             <a href="/challenges" class="btn btn-outline-primary btn-sm">
               <span class="me-1">🎯</span> Try Challenges
             </a>
-            <a href="/voice-test" class="btn btn-outline-secondary btn-sm">
-              <span class="me-1">🎤</span> Test Voice
-            </a>
+            
             <a href="/profile" class="btn btn-outline-success btn-sm">
               <span class="me-1">👤</span> View Profile
             </a>
@@ -370,29 +362,6 @@ function clearEditor() {
   }
 }
 
-// Toggle fullscreen
-function toggleFullscreen() {
-  const editorElement = document.getElementById('code-editor');
-  if (!document.fullscreenElement) {
-    editorElement.requestFullscreen().then(() => {
-      editor.setSize('100vw', '100vh');
-    });
-  } else {
-    document.exitFullscreen().then(() => {
-      editor.setSize(null, 400);
-    });
-  }
-}
-
-// Format code (basic implementation)
-function formatCode() {
-  const code = editor.getValue();
-  if (code.trim()) {
-    // Basic formatting - in a real app, you'd use a proper formatter
-    const formatted = code.split('\n').map(line => line.trim()).join('\n');
-    editor.setValue(formatted);
-  }
-}
 
 // Copy response to clipboard
 function copyResponse() {
