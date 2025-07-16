@@ -150,10 +150,6 @@
             Saved Code Snippets
           </h4>
           <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm" onclick="exportSnippets()">
-              <span class="me-1">📤</span>
-              Export
-            </button>
             <button class="btn btn-outline-secondary btn-sm" onclick="searchSnippets()">
               <span class="me-1">🔍</span>
               Search
@@ -175,10 +171,7 @@
                   <span class="me-2">💻</span>
                   Code Preview
                 </th>
-                <th class="px-4 py-3">
-                  <span class="me-2">📝</span>
-                  Description
-                </th>
+                
                 <th class="px-4 py-3 text-center">
                   <span class="me-2">⚡</span>
                   Actions
@@ -198,22 +191,12 @@
                     <pre class="mb-0"><code>{{ s.code[:100] }}{% if s.code|length > 100 %}...{% endif %}</code></pre>
                   </div>
                 </td>
-                <td class="px-4 py-3">
-                  <div class="text-muted">
-                    {{ s.explanation or 'No description provided' }}
-                  </div>
-                </td>
+                
                 <td class="px-4 py-3 text-center">
                   <div class="btn-group" role="group">
                     <!-- The following buttons are valid HTML, not JS property assignments -->
                     <button class="btn btn-outline-primary btn-sm" onclick="viewSnippet({{ s.id }})" title="View Full Code">
                       <span>👁️</span>
-                    </button>
-                    <button class="btn btn-outline-success btn-sm" onclick="copySnippet({{ s.id }})" title="Copy Code">
-                      <span>📋</span>
-                    </button>
-                    <button class="btn btn-outline-warning btn-sm" onclick="editSnippet({{ s.id }})" title="Edit Snippet">
-                      <span>✏️</span>
                     </button>
                     <button class="btn btn-outline-danger btn-sm" onclick="deleteSnippet({{ s.id }})" title="Delete Snippet">
                       <span>🗑️</span>
@@ -438,10 +421,7 @@ function viewSnippet(snippetId) {
       <strong>Language:</strong> 
       <span class="badge bg-primary rounded-pill ms-2">${snippet.language.toUpperCase()}</span>
     </div>
-    <div class="mb-3">
-      <strong>Description:</strong>
-      <p class="text-muted mt-1">${snippet.explanation || 'No description provided'}</p>
-    </div>
+    
     <div class="mb-3">
       <strong>Code:</strong>
       <pre class="bg-dark text-light p-3 rounded mt-2"><code>${snippet.code}</code></pre>
@@ -450,28 +430,6 @@ function viewSnippet(snippetId) {
   
   const modal = new bootstrap.Modal(document.getElementById('snippetModal'));
   modal.show();
-}
-
-// Copy snippet function
-function copySnippet(snippetId) {
-  const snippet = snippetsData.find(s => s.id === snippetId);
-  if (!snippet) return;
-  
-  navigator.clipboard.writeText(snippet.code).then(() => {
-    const btn = event.target.closest('button');
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = '<span>✅</span>';
-    btn.classList.remove('btn-outline-success');
-    btn.classList.add('btn-success');
-    
-    setTimeout(() => {
-      btn.innerHTML = originalHTML;
-      btn.classList.remove('btn-success');
-      btn.classList.add('btn-outline-success');
-    }, 1000);
-  }).catch(err => {
-    alert('Failed to copy code to clipboard');
-  });
 }
 
 // Copy modal content function
@@ -492,30 +450,6 @@ function copyModalContent() {
       }, 1000);
     });
   }
-}
-
-// Edit snippet function (placeholder)
-function editSnippet(snippetId) {
-  alert('Edit functionality coming soon! For now, you can copy the code and modify it in the editor.');
-}
-
-// Export snippets function (placeholder)
-function exportSnippets() {
-  const data = snippetsData.map(s => ({
-    language: s.language,
-    code: s.code,
-    explanation: s.explanation
-  }));
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'code-snippets.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 // Search snippets function (placeholder)
