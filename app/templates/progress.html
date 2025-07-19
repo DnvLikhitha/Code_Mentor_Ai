@@ -19,30 +19,6 @@
       </div>
     </div>
   </form> --->
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>Challenge</th>
-        <th>Attempts</th>
-        <th>Solved</th>
-        <th>Last Feedback</th>
-        <th>Last Code</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in progress %}
-      <tr>
-        <td>{{ p.challenge.title }}</td>
-        <td>{{ p.attempts }}</td>
-        <td>{{ p.solved }}</td>
-        <td><pre style="white-space:pre-wrap;">{{ p.last_feedback }}</pre></td>
-        <td><pre style="white-space:pre-wrap;">{{ p.last_code[:100] }}{% if p.last_code|length > 100 %}...{% endif %}</pre></td>
-        <td>{{ p.updated_at.strftime('%Y-%m-%d') if p.updated_at else '' }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
   <div class="mt-4">
     <div class="card p-4 mb-4" style="background:#fff; color:#232946; max-width:520px; border-radius: 1.5rem; box-shadow: 0 8px 32px rgba(60, 60, 120, 0.10); margin:auto;">
       <div class="row align-items-center">
@@ -79,6 +55,31 @@
       </div>
     </div>
   </div>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Challenge</th>
+        <th>Attempts</th>
+        <th>Solved</th>
+        <th>Last Feedback</th>
+        <th>Last Code</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in progress %}
+      <tr>
+        <td>{{ p.challenge.title }}</td>
+        <td>{{ p.attempts }}</td>
+        <td>{{ p.solved }}</td>
+        <td><pre style="white-space:pre-wrap;">{{ p.last_feedback }}</pre></td>
+        <td><pre style="white-space:pre-wrap;">{{ p.last_code[:100] }}{% if p.last_code|length > 100 %}...{% endif %}</pre></td>
+        <td>{{ p.updated_at.strftime('%Y-%m-%d') if p.updated_at else '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
