@@ -1,8 +1,5 @@
 import os
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
