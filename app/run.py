@@ -275,7 +275,9 @@ def profile():
         return redirect(url_for("login"))
     user = User_details.query.get(session["user_id"])
     snippets = user.snippets if user else []
-    return render_template("profile.html", user=user, snippets=snippets)
+    # Calculate challenges solved
+    solved_count = UserChallengeProgress.query.filter_by(user_id=user.id, solved=True).count() if user else 0
+    return render_template("profile.html", user=user, snippets=snippets, solved_count=solved_count)
 
 
 @app.route('/challenges')
@@ -681,9 +683,12 @@ def prompt_to_code():
     language = data.get('language', 'python')
     if not prompt.strip():
         return jsonify({'error': 'Prompt is required.'}), 400
+    # Always instruct the LLM to output only the code, no explanations or comments
     llm_prompt = (
-        f"Write only the {language} code for the following prompt. "
-        f"Do not include any explanations, comments, or extra information. Output only the code.\nPrompt: {prompt}"
+        f"Output ONLY the code for the following prompt. "
+        f"Do NOT include any explanations, docstrings, comments, code block markers, language names, or extra information. Output ONLY the code body, nothing else.\n"
+        f"If the prompt already contains code, return ONLY the code in the requested language, with NO extra text, NO docstrings, NO comments, and NO code block markers.\n"
+        f"Prompt: {prompt}"
     )
     try:
         response = model.generate_content(llm_prompt)
@@ -734,6 +739,19 @@ def reset_password(token):
             else:
                 error = "User not found."
     return render_template("reset_password.html", error=error)
+
+@app.route('/update_theme', methods=['POST'])
+def update_theme():
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+    user = User_details.query.get(session["user_id"])
+    theme = request.form.get('theme', 'light')
+    user.preferences = theme
+    db.session.commit()
+    # Optionally, set a cookie for immediate frontend theme change
+    resp = redirect(url_for('profile'))
+    resp.set_cookie('theme', theme)
+    return resp
 
 if __name__ == '__main__':
     app.run(debug=True)
