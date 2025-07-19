@@ -2,7 +2,7 @@
 {% block title %}Coding Challenges{% endblock %}
 {% block content %}
 <body class="main-bg">
-  <!-- Navigation (from base.html) -->
+  <!-- Navigation (from base.html) 
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand d-flex align-items-center" href="/">
@@ -53,13 +53,13 @@
             </li>
           {% endif %}
         </ul>
-        <!-- Dark Mode Toggle -->
+       
         <button id="darkModeToggle" class="btn btn-outline-light d-flex align-items-center" title="Toggle Dark Mode">
           <span id="darkModeIcon">🌙</span>
         </button>
       </div>
     </div>
-  </nav>
+  </nav> --->
 <div class="container" style="max-width:900px; margin:40px auto;">
   <h1 style="text-align:center; margin-bottom: 32px;">Coding Challenges</h1>
   <div class="challenge-list row g-4">
@@ -73,7 +73,7 @@
                 <span class="badge bg-success ms-2">Recommended</span>
               {% endif %}
             </div>
-            <h3 class="card-title fw-bold mb-2" style="font-size: 1.35rem; color: #232946;">{{ c.title }}</h3>
+            <h3 class="card-title fw-bold mb-2" style="font-size: 1.35rem;">{{ c.title }}</h3>
             <p class="card-text text-muted mb-4" style="min-height: 48px;">{{ c.description[:100] }}...</p>
             <div class="mt-auto">
               <a href="{{ url_for('challenge', challenge_id=c.id) }}" class="btn btn-primary w-100 fw-semibold">Solve</a>
@@ -89,7 +89,7 @@
 .challenge-card {
   transition: box-shadow 0.2s, transform 0.2s;
   border-radius: 1.25rem !important;
-  background: #fff;
+  background: #ffffff;
 }
 .challenge-card:hover {
   box-shadow: 0 8px 32px rgba(60,60,120,0.13), 0 1.5px 8px rgba(60,60,120,0.07);
@@ -105,7 +105,7 @@ body.dark-mode .challenge-card {
   border-color: #232946 !important;
 }
 body.dark-mode .card-title {
-  color: #b4c5ff !important;
+  color: #ffffff !important;
 }
 body.dark-mode .card-text {
   color: #b4b8d1 !important;
