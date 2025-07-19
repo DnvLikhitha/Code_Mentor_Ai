@@ -816,8 +816,20 @@ body.dark-mode .table {
 }
 
 body.dark-mode .table th {
-  background: var(--secondary-800);
-  color: var(--secondary-300);
+  color: #111 !important;
+  background: #e3e6ed !important;
+}
+
+/* Progress page: Make specific columns black in dark mode */
+body.dark-mode .table th:nth-child(1), /* Challenge */
+body.dark-mode .table th:nth-child(2), /* Attempts */
+body.dark-mode .table th:nth-child(3), /* Solved */
+body.dark-mode .table th:nth-child(6), /* Date */
+body.dark-mode .table td:nth-child(1),
+body.dark-mode .table td:nth-child(2),
+body.dark-mode .table td:nth-child(3),
+body.dark-mode .table td:nth-child(6) {
+  color: #111 !important;
 }
 
 body.dark-mode .table td {
@@ -869,6 +881,42 @@ body.dark-mode .alert-info {
 body.dark-mode .alert-warning {
   background: rgba(245, 158, 11, 0.15);
   color: var(--warning-400);
+}
+
+/* Improved dark mode text contrast */
+body.dark-mode,
+body.dark-mode .card,
+body.dark-mode .card-body,
+body.dark-mode .lead,
+body.dark-mode .form-label,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .text-muted,
+body.dark-mode .text-secondary,
+body.dark-mode .text-dark,
+body.dark-mode .text-gradient-primary,
+body.dark-mode .text-gradient-success {
+  color: #fff !important;
+}
+
+body.dark-mode .text-muted {
+  color: #bfc7d5 !important;
+}
+
+body.dark-mode .form-label {
+  color: #e0e6f5 !important;
+}
+
+body.dark-mode .lead {
+  color: #e0e6f5 !important;
+}
+
+body.dark-mode a {
+  color: #8ab4f8;
+}
+
+body.dark-mode a:hover {
+  color: #fff;
 }
 
 /* Enhanced Animations */
