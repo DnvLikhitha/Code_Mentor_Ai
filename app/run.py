@@ -21,7 +21,7 @@ load_dotenv()
 
 # Flask App Setup
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = 'SECRET_KEY'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
@@ -441,10 +441,10 @@ def speech_to_code():
             return jsonify({'error': 'Audio file too small. Please check your microphone and try again.'}), 400
         
         # Save a copy for debugging (only for development)
-        debug_file = f"debug_audio_{int(time.time())}.webm"
-        import shutil
-        shutil.copy2(temp_audio.name, debug_file)
-        print(f"Saved debug copy to: {debug_file}")
+        #debug_file = f"debug_audio_{int(time.time())}.webm"
+        #import shutil
+        #shutil.copy2(temp_audio.name, debug_file)
+        #print(f"Saved debug copy to: {debug_file}") 
         
         # Try direct transcription first
         prompt = try_direct_whisper(temp_audio.name)
@@ -705,7 +705,8 @@ def forgot_password():
         user = User_details.query.filter_by(email=email).first()
         if user:
             token = serializer.dumps(email, salt="password-reset-salt")
-            reset_url = url_for('reset_password', token=token, _external=True)
+            reset_url = f"https://192.168.1.38/reset-password/{token}"
+
             send_reset_email(email, reset_url)
         # Always show the same message for security
         message = "If this email is registered, a reset link will be sent."
