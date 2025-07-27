@@ -84,19 +84,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const donut = document.getElementById('progressDonut').getContext('2d');
-const solved = {{ stats['solved'] }};
-const attempting = {{ stats['attempting'] }};
-const unsolved = {{ stats['total'] - stats['solved'] - stats['attempting'] }};
-{% raw %}
+const easy = {{ stats['easy']['solved'] }};
+const medium = {{ stats['medium']['solved'] }};
+const hard = {{ stats['hard']['solved'] }};
+
 new Chart(donut, {
   type: 'doughnut',
   data: {
+    labels: ['Easy', 'Medium', 'Hard'],
     datasets: [{
-      data: [solved, attempting, unsolved],
+      data: [easy, medium, hard],
       backgroundColor: [
-        '#22c55e', // Solved (green, matches easy badge)
-        '#fbbf24', // Attempting (yellow, matches medium badge)
-        '#f87171'  // Unsolved (red, matches hard badge)
+        '#6ee7b7', // Easy (green)
+        '#fbbf24', // Medium (yellow)
+        '#f87171'  // Hard (red)
       ],
       borderWidth: 0,
       cutout: '75%',
@@ -112,7 +113,6 @@ new Chart(donut, {
     }
   }
 });
-{% endraw %}
 </script>
 <style>
 .legend-item:hover {

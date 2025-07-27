@@ -8,8 +8,11 @@ python-dotenv
 openai
 openai-whisper
 torch
+gunicorn
+ffmpeg-python
 soundfile
 werkzeug
 google-generativeai
 numpy
+email-validator
 itsdangerous>=2.1.2
