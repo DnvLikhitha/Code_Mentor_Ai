@@ -1,131 +1,77 @@
----
-title: CodeMentor AI
-emoji: 🎓
-colorFrom: blue
-colorTo: green
-sdk: docker
-sdk_version: "1.0"
-python_version: "3.10"
-pinned: false
----
+# CodeMentor AI
 
-# CodeMentor AI - Hugging Face Spaces
+CodeMentor AI is an intelligent coding assistant and practice platform. It combines a robust Flask backend with a beautiful, modern React frontend to deliver AI-powered coding challenges, voice-to-code transcription, and real-time code analysis.
 
-Deploy CodeMentor AI on Hugging Face Spaces using Docker.
+## Features
 
-## 🚀 Deploy on Hugging Face Spaces
+- **Interactive Code Editor**: Write and test code right in the browser with beautiful syntax highlighting.
+- **AI-Powered Mentorship**: Highlight code to get explanations, find bugs, or receive suggestions for improvement using Google's Gemini models.
+- **Voice-to-Code**: Speak your logic out loud! CodeMentor AI uses Whisper to transcribe your voice and convert it directly into executable code.
+- **Challenge Arena**: Test your skills with algorithmic challenges across multiple difficulties (Easy, Medium, Hard).
+- **Progress Tracking**: Keep track of your solved challenges, failed attempts, and overall skill breakdown on a personalized dashboard.
+- **Snippet Library**: Save helpful code snippets (along with AI-generated explanations) directly to your profile.
+- **Modern UI/UX**: Built with React, Tailwind CSS, and Lucide Icons for a premium, glassmorphism-inspired dark mode experience.
 
-### Step 1: Create a Hugging Face Space
+## Technology Stack
 
-1. Go to [huggingface.co/spaces](https://huggingface.co/spaces)
-2. Click **"Create new Space"**
-3. Configure:
-   - **Space name**: `codementor-ai`
-   - **License**: Select your preferred license
-   - **Space SDK**: Choose **Docker**
-   - **Space hardware**: **CPU** (sufficient to start)
-4. Click **"Create Space"**
+**Frontend:**
+- React 18
+- Vite
+- Tailwind CSS
+- TypeScript
+- React Router DOM
+- Axios
 
-### Step 2: Clone and Push Code
+**Backend:**
+- Python & Flask
+- SQLite / SQLAlchemy (Database)
+- Google Generative AI (Gemini 2.5 Flash)
+- OpenAI Whisper (Voice-to-Text)
 
-```bash
-# Clone your Space repository
-git clone https://huggingface.co/spaces/YOUR_USERNAME/codementor-ai
-cd codementor-ai
+## Getting Started
 
-# Copy your project files (app/, config.py, requirements.txt, Dockerfile, .dockerignore)
-# Then push to HF Spaces
-git add .
-git commit -m "Deploy CodeMentor AI"
-git push
-```
-
-### Step 3: Set Environment Variables
-
-In your Space **Settings** → **Repository secrets**, add:
-
-```
-DATABASE_URL=postgresql://user:password@host:5432/dbname
-GOOGLE_API_KEY=your_api_key_here
-SECRET_KEY=your_secure_secret_key
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASSWORD=your_app_password
-FROM_EMAIL=your_email@gmail.com
-```
-
-**Database Options:**
-- PostgreSQL/MySQL (external) - recommended for production
-- SQLite with persistent storage at `/data/app.db`
-
-### Step 4: Deploy
-
-HF Spaces will automatically build and deploy your Docker container. Monitor the build in the Space logs.
-
-## 📋 Requirements
-
+### Prerequisites
 - Python 3.10+
-- Flask with SQLAlchemy
-- PostgreSQL/MySQL or SQLite database
-- Google Generative AI API key
-- SMTP configured for email features
+- Node.js & npm
+- FFmpeg (Required for Whisper voice transcription)
 
-## 🔧 Key Configuration
+### 1. Backend Setup
 
-- **Port**: 7860 (HF Spaces default)
-- **Database**: External database recommended (set `DATABASE_URL`)
-- **Static Files**: Served from `app/static/`
-- **Templates**: Located in `app/templates/`
-
-## 📚 Features
-
-✅ User authentication and registration  
-✅ AI-powered code challenges  
-✅ Voice-to-code capability (Whisper)  
-✅ Progress tracking  
-✅ Password reset via email  
-✅ Challenge management  
-
-## ⚙️ Local Testing Before Deployment
+Clone the repository and install the Python dependencies:
 
 ```bash
+# Create a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .\.venv\Scripts\activate
+
 # Install dependencies
 pip install -r requirements.txt
-
-# Set environment variables
-export DATABASE_URL="sqlite:///app.db"
-export GOOGLE_API_KEY="your_key"
-export SECRET_KEY="dev_secret"
-
-# Run locally
-python -m app.run
 ```
 
-Access at `http://localhost:5000`
+Create a `.env` file in the root directory (make sure not to commit this!) and add your API keys:
+```env
+GOOGLE_API_KEY=your_gemini_api_key_here
+```
 
-## 🆘 Troubleshooting
+Initialize the database and start the Flask API:
+```bash
+python -m app.run
+```
+*The backend API will start on `http://localhost:5000`.*
 
-| Issue | Solution |
-|-------|----------|
-| Build fails | Check requirements.txt and Dockerfile syntax |
-| Database error | Verify DATABASE_URL is correct and accessible |
-| Email not sending | Confirm SMTP credentials and use app password for Gmail |
-| Port error | HF Spaces uses port 7860 (already configured) |
+### 2. Frontend Setup
 
-## 📖 Resources
+Open a new terminal window, navigate to the frontend directory, and start the Vite development server:
 
-- [HF Spaces Docs](https://huggingface.co/docs/hub/spaces)
-- [Docker Documentation](https://docs.docker.com/)
-- [Flask Documentation](https://flask.palletsprojects.com/)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*The frontend will be available at `http://localhost:5173`.*
 
-## 📝 Notes
+## Security Note
+Ensure your `.env` file is always included in your `.gitignore`. Never commit your API keys to version control.
 
-- Change hardcoded `SECRET_KEY` in `app.run` to use environment variable
-- Ensure database is accessible from HF's servers
-- Monitor logs for any runtime errors
-- Start with CPU hardware, upgrade if needed
-
----
-
-**Ready to deploy? Push to your HF Space repo and watch it build!** 🎯
+## Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request for new features, bug fixes, or improvements.
