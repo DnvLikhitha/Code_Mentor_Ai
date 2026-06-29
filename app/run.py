@@ -48,9 +48,9 @@ with app.app_context():
         # Auto-seed database if empty
         from app.models import Challenge
         if Challenge.query.count() == 0:
-            import app.seed_challenges
+            from app.seed_challenges import seed_challenges
             print("Auto-seeding challenges...")
-            app.seed_challenges.seed_database()
+            seed_challenges(app)
     except Exception as e:
         print(f"Database creation error: {e}")
 @app.route('/api/debug-db', methods=['GET'])
