@@ -9,7 +9,7 @@ services:
     name: codementor-backend
     env: python
     buildCommand: "pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu"
-    startCommand: "gunicorn -w 2 -b 0.0.0.0:$PORT app.run:app"
+    startCommand: "gunicorn -b 0.0.0.0:$PORT app.run:app"
     plan: free
     envVars:
       - key: DATABASE_URL
