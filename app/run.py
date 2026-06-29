@@ -44,6 +44,13 @@ with app.app_context():
         except Exception as e:
             db.session.rollback()
             print(f"Migration error (expected on sqlite): {e}")
+            
+        # Auto-seed database if empty
+        from app.models import Challenge
+        if Challenge.query.count() == 0:
+            import app.seed_challenges
+            print("Auto-seeding challenges...")
+            app.seed_challenges.seed_database()
     except Exception as e:
         print(f"Database creation error: {e}")
 @app.route('/api/debug-db', methods=['GET'])
@@ -353,10 +360,11 @@ def challenges():
     failed = UserChallengeProgress.query.filter_by(user_id=user_id, solved=False).order_by(UserChallengeProgress.attempts.desc()).all()
     failed_ids = [f.challenge_id for f in failed]
     
-    challenges_db = Challenge.query.order_by(
-        db.case((Challenge.id.in_(failed_ids), 0), else_=1),
-        Challenge.difficulty
-    ).all()
+    if failed_ids:
+        order_case = db.case((Challenge.id.in_(failed_ids), 0), else_=1)
+        challenges_db = Challenge.query.order_by(order_case, Challenge.difficulty).all()
+    else:
+        challenges_db = Challenge.query.order_by(Challenge.difficulty).all()
     
     challs = []
     for c in challenges_db:
