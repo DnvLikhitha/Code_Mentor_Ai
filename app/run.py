@@ -28,11 +28,17 @@ allowed_origins = [
 ]
 CORS(app, supports_credentials=True, origins=allowed_origins)
 app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key_for_dev")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///app.db")
+db_url = os.getenv("DATABASE_URL", "sqlite:///app.db")
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+    except Exception as e:
+        print(f"Database creation error: {e}")
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
