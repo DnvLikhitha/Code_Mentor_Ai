@@ -22,7 +22,7 @@ import re
 app = Flask(__name__)
 # Allow local dev and ANY codementor-frontend on render
 allowed_origins = [
-    re.compile(r"^https://codementor-frontend-[a-z0-9]+\.onrender\.com$"),
+    "https://codementor-frontend-m6pf.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173"
 ]
