@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, Code2, Loader2, PlayCircle, Star, AlertCircle } from 'lucide-react';
+import { Trophy, Code2, Loader2, PlayCircle, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 
 interface Challenge {

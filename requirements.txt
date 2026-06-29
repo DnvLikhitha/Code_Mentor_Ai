@@ -17,3 +17,4 @@ numpy
 email-validator
 itsdangerous>=2.1.2
 psycopg2-binary
+flask-cors

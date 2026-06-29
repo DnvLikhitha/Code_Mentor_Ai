@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Code2, Play, Mic, MicOff, MessageSquare, AlertCircle, Loader2 } from 'lucide-react';
+import { Code2, Mic, MicOff, MessageSquare, AlertCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
 
 export default function Editor() {
