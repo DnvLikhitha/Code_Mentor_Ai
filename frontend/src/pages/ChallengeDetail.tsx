@@ -30,6 +30,7 @@ export default function ChallengeDetail() {
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [solved, setSolved] = useState(false);
+  const [selectedTestCase, setSelectedTestCase] = useState(0);
 
   useEffect(() => {
     fetchChallenge();
@@ -66,6 +67,7 @@ export default function ChallengeDetail() {
     if (!code.trim()) return;
     setSubmitting(true);
     setFeedback(null);
+    setSelectedTestCase(0);
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/challenge/${id}`, 
@@ -84,7 +86,16 @@ export default function ChallengeDetail() {
   if (loading) return <div className="flex h-[calc(100vh-4rem)] items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
   if (error || !data) return <div className="text-center mt-20 text-destructive">{error}</div>;
 
-  const isSuccess = feedback?.includes('ALL PASS') || solved;
+  const parsedFeedback = (() => {
+    if (!feedback) return null;
+    try {
+      return JSON.parse(feedback);
+    } catch {
+      return null; // old text fallback
+    }
+  })();
+
+  const isSuccess = parsedFeedback ? parsedFeedback.all_pass : (feedback?.includes('ALL PASS') || solved);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -121,7 +132,7 @@ export default function ChallengeDetail() {
             </div>
           </div>
 
-          {feedback && (
+          {feedback && !parsedFeedback && (
             <div className={`glass p-6 rounded-2xl border ${isSuccess ? 'border-green-500/50 bg-green-500/5' : 'border-red-500/50 bg-red-500/5'} animate-in fade-in slide-in-from-bottom-4`}>
               <h3 className={`text-lg font-bold flex items-center gap-2 mb-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>
                 {isSuccess ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
@@ -130,6 +141,67 @@ export default function ChallengeDetail() {
               <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-muted-foreground overflow-x-auto">
                 {feedback}
               </pre>
+            </div>
+          )}
+
+          {parsedFeedback && (
+            <div className={`glass p-6 rounded-2xl border ${parsedFeedback.all_pass ? 'border-green-500/50 bg-green-500/5' : 'border-red-500/50 bg-red-500/5'} animate-in fade-in slide-in-from-bottom-4`}>
+              <h3 className={`text-2xl font-bold flex items-center gap-2 mb-6 ${parsedFeedback.all_pass ? 'text-green-500' : 'text-red-500'}`}>
+                {parsedFeedback.all_pass ? <CheckCircle2 className="w-6 h-6" /> : <XCircle className="w-6 h-6" />}
+                {parsedFeedback.all_pass ? 'Accepted' : 'Wrong Answer'}
+              </h3>
+              
+              {parsedFeedback.error_message && (
+                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl font-mono text-sm whitespace-pre-wrap">
+                  {parsedFeedback.error_message}
+                </div>
+              )}
+
+              {parsedFeedback.test_cases && parsedFeedback.test_cases.length > 0 && (
+                <div className="space-y-6">
+                  <div className="flex flex-wrap gap-2">
+                    {parsedFeedback.test_cases.map((tc: any, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedTestCase(idx)}
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 ${
+                          selectedTestCase === idx 
+                            ? 'bg-secondary text-secondary-foreground shadow-sm' 
+                            : 'bg-transparent text-muted-foreground hover:bg-secondary/50'
+                        }`}
+                      >
+                        {tc.passed ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}
+                        Case {idx + 1}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Input</h4>
+                      <div className="p-4 bg-secondary/30 border border-border rounded-xl font-mono text-sm text-foreground">
+                        {parsedFeedback.test_cases[selectedTestCase]?.input || 'N/A'}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Expected Output</h4>
+                      <div className="p-4 bg-secondary/30 border border-border rounded-xl font-mono text-sm text-foreground">
+                        {parsedFeedback.test_cases[selectedTestCase]?.expected_output || 'N/A'}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Actual Output</h4>
+                      <div className={`p-4 border rounded-xl font-mono text-sm ${
+                        parsedFeedback.test_cases[selectedTestCase]?.passed 
+                          ? 'bg-secondary/30 border-border text-foreground' 
+                          : 'bg-red-500/5 border-red-500/20 text-red-500'
+                      }`}>
+                        {parsedFeedback.test_cases[selectedTestCase]?.actual_output || 'N/A'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

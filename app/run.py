@@ -390,15 +390,46 @@ def challenge(challenge_id):
         test_cases = json.loads(challenge.test_cases)
         prompt = (
             f"Given the following {language} function implementation:\n{code}\n"
-            f"Test it with these cases: {test_cases}.\n"
-            "For each, return 'PASS' or 'FAIL' and explain any failures. "
-            "If all pass, say 'ALL PASS'."
+            f"Test it against these cases: {test_cases}.\n"
+            "You MUST respond ONLY with valid, raw JSON (no markdown formatting, no ```json blocks). "
+            "The JSON must have this exact structure:\n"
+            "{\n"
+            "  \"test_cases\": [\n"
+            "    {\n"
+            "      \"id\": 1,\n"
+            "      \"input\": \"a = 1, b = 2\",\n"
+            "      \"expected_output\": \"3\",\n"
+            "      \"actual_output\": \"3\",\n"
+            "      \"passed\": true\n"
+            "    }\n"
+            "  ],\n"
+            "  \"all_pass\": true,\n"
+            "  \"error_message\": null\n"
+            "}\n"
+            "If the code has a syntax error or fails to run, set all_pass to false, put the error in error_message, and return empty test_cases if you cannot run them. Otherwise, evaluate each case."
         )
         try:
+            # We explicitly ask for JSON, but just in case, strip any markdown blocks if Gemini includes them
             response = model.generate_content(prompt)
-            feedback = response.text.strip()
+            raw_text = response.text.strip()
+            if raw_text.startswith("```json"):
+                raw_text = raw_text[7:]
+            if raw_text.startswith("```"):
+                raw_text = raw_text[3:]
+            if raw_text.endswith("```"):
+                raw_text = raw_text[:-3]
+            feedback = raw_text.strip()
+            
+            # Verify it's valid JSON
+            parsed = json.loads(feedback)
+            is_all_pass = parsed.get("all_pass", False)
         except Exception as e:
-            feedback = f"Error: {str(e)}"
+            feedback = json.dumps({
+                "test_cases": [],
+                "all_pass": False,
+                "error_message": f"Failed to evaluate code: {str(e)}"
+            })
+            is_all_pass = False
             
         progress = UserChallengeProgress.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
         if not progress:
@@ -409,7 +440,7 @@ def challenge(challenge_id):
         progress.attempts += 1
         progress.last_code = code
         progress.last_feedback = feedback
-        if "ALL PASS" in feedback:
+        if is_all_pass:
             progress.solved = True
         db.session.commit()
         
