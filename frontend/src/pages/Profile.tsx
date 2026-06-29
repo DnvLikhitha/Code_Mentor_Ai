@@ -87,27 +87,24 @@ export default function Profile() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       
       {/* Banner / Header */}
-      <div className="relative rounded-3xl overflow-hidden mb-12 shadow-2xl border border-white/10">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay opacity-30" />
-        
-        <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
-          <div className="w-32 h-32 rounded-full bg-background border-4 border-white/20 shadow-xl flex items-center justify-center flex-shrink-0">
-            <User className="w-16 h-16 text-primary" />
+      <div className="glass rounded-3xl overflow-hidden mb-12 relative">
+        <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10">
+          <div className="w-24 h-24 rounded-2xl bg-secondary border border-border flex items-center justify-center flex-shrink-0">
+            <User className="w-10 h-10 text-foreground" />
           </div>
           
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-2">
               {profile.user.name}
             </h1>
-            <p className="text-blue-100 text-lg flex items-center justify-center md:justify-start gap-2">
+            <p className="text-muted-foreground text-lg flex items-center justify-center md:justify-start gap-2">
               {profile.user.email}
             </p>
           </div>
 
           <div className="flex gap-4">
-            <button onClick={toggleTheme} className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-white transition-all shadow-lg">
-              {theme === 'dark' ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
+            <button onClick={toggleTheme} className="p-3 bg-secondary hover:bg-secondary/80 border border-border rounded-xl text-foreground transition-all">
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -120,16 +117,16 @@ export default function Profile() {
           
           {/* Main Stats Cards */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="glass p-6 rounded-2xl border border-border shadow-lg flex flex-col items-center justify-center text-center hover:scale-105 transition-transform">
-              <div className="p-3 bg-yellow-500/20 text-yellow-500 rounded-full mb-3">
+            <div className="glass p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+              <div className="p-3 bg-secondary text-foreground rounded-lg mb-3">
                 <Trophy className="w-6 h-6" />
               </div>
               <h3 className="text-3xl font-bold">{progress.stats.solved}</h3>
               <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Solved</p>
             </div>
             
-            <div className="glass p-6 rounded-2xl border border-border shadow-lg flex flex-col items-center justify-center text-center hover:scale-105 transition-transform">
-              <div className="p-3 bg-blue-500/20 text-blue-500 rounded-full mb-3">
+            <div className="glass p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+              <div className="p-3 bg-secondary text-foreground rounded-lg mb-3">
                 <Target className="w-6 h-6" />
               </div>
               <h3 className="text-3xl font-bold">{progress.stats.attempting}</h3>
@@ -147,33 +144,33 @@ export default function Profile() {
               {/* Easy */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="font-semibold text-green-500">Easy</span>
+                  <span className="font-semibold text-foreground">Easy</span>
                   <span className="text-muted-foreground">{progress.stats.easy.solved} / {progress.stats.easy.total}</span>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 rounded-full transition-all duration-1000" style={{ width: `${progress.stats.easy.total ? (progress.stats.easy.solved / progress.stats.easy.total) * 100 : 0}%` }} />
+                  <div className="h-full bg-foreground rounded-full transition-all duration-1000" style={{ width: `${progress.stats.easy.total ? (progress.stats.easy.solved / progress.stats.easy.total) * 100 : 0}%` }} />
                 </div>
               </div>
 
               {/* Medium */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="font-semibold text-yellow-500">Medium</span>
+                  <span className="font-semibold text-foreground">Medium</span>
                   <span className="text-muted-foreground">{progress.stats.medium.solved} / {progress.stats.medium.total}</span>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-yellow-500 rounded-full transition-all duration-1000" style={{ width: `${progress.stats.medium.total ? (progress.stats.medium.solved / progress.stats.medium.total) * 100 : 0}%` }} />
+                  <div className="h-full bg-foreground rounded-full transition-all duration-1000" style={{ width: `${progress.stats.medium.total ? (progress.stats.medium.solved / progress.stats.medium.total) * 100 : 0}%` }} />
                 </div>
               </div>
 
               {/* Hard */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="font-semibold text-red-500">Hard</span>
+                  <span className="font-semibold text-foreground">Hard</span>
                   <span className="text-muted-foreground">{progress.stats.hard.solved} / {progress.stats.hard.total}</span>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-red-500 rounded-full transition-all duration-1000" style={{ width: `${progress.stats.hard.total ? (progress.stats.hard.solved / progress.stats.hard.total) * 100 : 0}%` }} />
+                  <div className="h-full bg-foreground rounded-full transition-all duration-1000" style={{ width: `${progress.stats.hard.total ? (progress.stats.hard.solved / progress.stats.hard.total) * 100 : 0}%` }} />
                 </div>
               </div>
             </div>
@@ -196,8 +193,8 @@ export default function Profile() {
                 </div>
               ) : (
                 progress.recent_activity.map((act, i) => (
-                  <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
-                    <div className={`p-2 rounded-full ${act.solved ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
+                  <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:bg-secondary/50 transition-colors">
+                    <div className={`p-2 rounded-lg bg-secondary text-foreground`}>
                       {act.solved ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                     </div>
                     <div className="flex-1">

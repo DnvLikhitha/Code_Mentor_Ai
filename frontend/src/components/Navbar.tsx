@@ -27,7 +27,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }: NavbarPr
           <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
             <Code2 className="w-6 h-6 text-primary" />
           </div>
-          <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400">
+          <span className="font-bold text-xl tracking-tight text-foreground">
             CodeMentor AI
           </span>
         </Link>
