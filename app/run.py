@@ -184,7 +184,7 @@ def try_direct_whisper(audio_path):
 
 # Load Whisper model once at startup
 try:
-    whisper_model = whisper.load_model("base")  # or "small", "medium", "large"
+    whisper_model = whisper.load_model("tiny")  # Use tiny (39MB) instead of base (139MB) to fit in 512MB RAM
 except Exception as e:
     print(f"Warning: Could not load Whisper model: {e}")
     whisper_model = None
