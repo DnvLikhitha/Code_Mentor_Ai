@@ -6,10 +6,7 @@ from app.models import db, User_details, Challenge, UserChallengeProgress, Snipp
 import json
 import os
 import google.generativeai as genai
-from app.models import Snippet
-from app.models import db, User_details
 import tempfile
-import whisper
 import subprocess
 import time
 from datetime import datetime
@@ -21,10 +18,16 @@ from email.mime.text import MIMEText
 load_dotenv()
 
 # Flask App Setup
+import re
 app = Flask(__name__)
-frontend_url = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:5173").replace("-backend", "-frontend") if "RENDER" in os.environ else "http://localhost:5173"
-CORS(app, supports_credentials=True, origins=[frontend_url, "http://localhost:5173", "http://127.0.0.1:5173"])
-app.secret_key = 'SECRET_KEY'
+# Allow local dev and ANY codementor-frontend on render
+allowed_origins = [
+    re.compile(r"^https://codementor-frontend-[a-z0-9]+\.onrender\.com$"),
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+CORS(app, supports_credentials=True, origins=allowed_origins)
+app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key_for_dev")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///app.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
@@ -137,7 +140,7 @@ def try_direct_whisper(audio_path):
         
         # Try different Whisper options
         print("Trying Whisper with default settings...")
-        result = whisper_model.transcribe(
+        result = get_whisper_model().transcribe(
             audio_path,
             language="en",
             task="transcribe",
@@ -152,7 +155,7 @@ def try_direct_whisper(audio_path):
         # If no text detected, try with different settings
         if not text:
             print("No text detected, trying with different settings...")
-            result = whisper_model.transcribe(
+            result = get_whisper_model().transcribe(
                 audio_path,
                 language=None,  # Let Whisper auto-detect language
                 task="transcribe",
@@ -165,7 +168,7 @@ def try_direct_whisper(audio_path):
         # If still no text, try with more aggressive settings
         if not text:
             print("Still no text, trying with aggressive settings...")
-            result = whisper_model.transcribe(
+            result = get_whisper_model().transcribe(
                 audio_path,
                 language="en",
                 task="transcribe",
@@ -182,12 +185,14 @@ def try_direct_whisper(audio_path):
         print(f"Direct transcription failed: {e}")
         return ""
 
-# Load Whisper model once at startup
-try:
-    whisper_model = whisper.load_model("tiny")  # Use tiny (39MB) instead of base (139MB) to fit in 512MB RAM
-except Exception as e:
-    print(f"Warning: Could not load Whisper model: {e}")
-    whisper_model = None
+# Lazy load whisper model
+whisper_model = None
+def get_whisper_model():
+    global whisper_model
+    if whisper_model is None:
+        import whisper
+        whisper_model = whisper.load_model("tiny")
+    return whisper_model
 
 # Routes
 @app.route('/')
@@ -440,7 +445,7 @@ def speech_to_code():
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'}), 400
     
-    if whisper_model is None:
+    if get_whisper_model() is None:
         return jsonify({'error': 'Speech recognition not available'}), 500
     
     audio_file = request.files['audio']
@@ -499,7 +504,7 @@ def speech_to_code():
                 # Try with different Whisper settings as last resort
                 try:
                     print("Trying Whisper with minimal settings...")
-                    result = whisper_model.transcribe(
+                    result = get_whisper_model().transcribe(
                         temp_audio.name,
                         language=None,
                         task="transcribe",
@@ -584,7 +589,7 @@ def voice_test():
 @app.route('/api/test-whisper', methods=['GET'])
 def test_whisper():
     """Test endpoint to verify Whisper is working"""
-    if whisper_model is None:
+    if get_whisper_model() is None:
         return jsonify({'error': 'Whisper model not loaded'}), 500
     
     # Test with a simple audio file if available
@@ -598,16 +603,16 @@ def test_whisper():
 @app.route('/api/test-whisper-simple', methods=['POST'])
 def test_whisper_simple():
     """Test Whisper with a simple known text"""
-    if whisper_model is None:
+    if get_whisper_model() is None:
         return jsonify({'error': 'Whisper model not loaded'}), 500
     
     try:
         # Test if the model can process a simple audio file
         # Create a minimal test by checking model properties
         model_info = {
-            'model_name': whisper_model.name,
+            'model_name': get_whisper_model().name,
             'model_type': 'base',
-            'is_loaded': whisper_model is not None
+            'is_loaded': get_whisper_model() is not None
         }
         
         print(f"Whisper model info: {model_info}")
