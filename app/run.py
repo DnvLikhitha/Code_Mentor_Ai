@@ -28,6 +28,8 @@ allowed_origins = [
 ]
 CORS(app, supports_credentials=True, origins=allowed_origins)
 app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key_for_dev")
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
 db_url = os.getenv("DATABASE_URL", "sqlite:///app.db")
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
