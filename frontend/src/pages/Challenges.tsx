@@ -22,7 +22,7 @@ export default function Challenges() {
 
   const fetchChallenges = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/challenges', { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/challenges`, { withCredentials: true });
       setChallenges(response.data.challenges);
     } catch (err) {
       setError('Failed to load challenges.');

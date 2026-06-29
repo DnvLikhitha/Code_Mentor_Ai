@@ -12,7 +12,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }: NavbarPr
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/logout`, {}, { withCredentials: true });
       setIsAuthenticated(false);
       navigate('/');
     } catch (e) {

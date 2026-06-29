@@ -34,8 +34,8 @@ export default function Profile() {
   const fetchData = async () => {
     try {
       const [profileRes, progressRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/profile', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/my_progress', { withCredentials: true })
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/profile`, { withCredentials: true }),
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/my_progress`, { withCredentials: true })
       ]);
       setProfile(profileRes.data);
       setProgress(progressRes.data);
@@ -53,7 +53,7 @@ export default function Profile() {
   const toggleTheme = async () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     try {
-      await axios.post('http://localhost:5000/api/user/theme', { theme: newTheme }, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/user/theme`, { theme: newTheme }, { withCredentials: true });
       setTheme(newTheme);
       if (newTheme === 'dark') {
         document.documentElement.classList.add('dark');
@@ -68,7 +68,7 @@ export default function Profile() {
   const deleteSnippet = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this snippet?")) return;
     try {
-      await axios.delete(`http://localhost:5000/delete_snippet/${id}`, { withCredentials: true });
+      await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/delete_snippet/${id}`, { withCredentials: true });
       if (profile) {
         setProfile({
           ...profile,

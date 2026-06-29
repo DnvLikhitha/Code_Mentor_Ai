@@ -14,7 +14,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/auth/me', { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, { withCredentials: true })
       .then(response => {
         if (response.data.authenticated) {
           setIsAuthenticated(true);

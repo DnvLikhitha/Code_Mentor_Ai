@@ -1,0 +1,37 @@
+databases:
+  - name: codementor-db
+    databaseName: codementor_db
+    user: codementor_user
+    plan: free
+
+services:
+  - type: web
+    name: codementor-backend
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -w 2 -b 0.0.0.0:$PORT app.run:app"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: codementor-db
+          property: connectionString
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+
+  - type: web
+    name: codementor-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "./frontend/dist"
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: codementor-backend
+          envVarKey: RENDER_EXTERNAL_URL

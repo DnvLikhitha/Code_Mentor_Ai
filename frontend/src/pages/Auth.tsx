@@ -21,7 +21,7 @@ export default function Auth({ setIsAuthenticated, isLogin = true }: AuthProps) 
     setLoading(true);
 
     try {
-      const endpoint = isLoginMode ? 'http://localhost:5000/login' : 'http://localhost:5000/register';
+      const endpoint = isLoginMode ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/login` : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/register`;
       const response = await axios.post(endpoint, formData, { withCredentials: true });
       
       if (response.data.success) {

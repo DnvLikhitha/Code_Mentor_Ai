@@ -22,7 +22,8 @@ load_dotenv()
 
 # Flask App Setup
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+frontend_url = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:5173").replace("-backend", "-frontend") if "RENDER" in os.environ else "http://localhost:5173"
+CORS(app, supports_credentials=True, origins=[frontend_url, "http://localhost:5173", "http://127.0.0.1:5173"])
 app.secret_key = 'SECRET_KEY'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///app.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

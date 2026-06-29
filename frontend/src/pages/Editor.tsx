@@ -17,7 +17,7 @@ export default function Editor() {
     if (!promptInput.trim()) return;
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/prompt-to-code', 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/prompt-to-code`, 
         { prompt: promptInput, language },
         { withCredentials: true }
       );
@@ -37,7 +37,7 @@ export default function Editor() {
     if (!code.trim()) return;
     setLoading(true);
     try {
-      const response = await axios.post(`http://localhost:5000/api/${action}`, 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/${action}`, 
         { code, language },
         { withCredentials: true }
       );
@@ -84,7 +84,7 @@ export default function Editor() {
     formData.append('language', language);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/speech-to-code', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/speech-to-code`, formData, {
         withCredentials: true,
         headers: { 'Content-Type': 'multipart/form-data' }
       });
@@ -101,7 +101,7 @@ export default function Editor() {
 
   const saveSnippet = async (withOutput = false) => {
     try {
-      await axios.post('http://localhost:5000/save_snippet', 
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/save_snippet`, 
         { code, language, explanation: withOutput && output ? output : 'Saved from workspace' },
         { withCredentials: true }
       );

@@ -37,7 +37,7 @@ export default function ChallengeDetail() {
 
   const fetchChallenge = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/challenge/${id}`, { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/challenge/${id}`, { withCredentials: true });
       setData(response.data);
       setSolved(response.data.progress.solved);
       setFeedback(response.data.progress.last_feedback);
@@ -68,7 +68,7 @@ export default function ChallengeDetail() {
     setFeedback(null);
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/challenge/${id}`, 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/challenge/${id}`, 
         { code, language },
         { withCredentials: true }
       );
