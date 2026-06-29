@@ -56,7 +56,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }: NavbarPr
               <Link to="/login" className="text-sm font-medium hover:text-primary transition-colors">
                 Login
               </Link>
-              <Link to="/register" className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
+              <Link to="/login" className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
                 Get Started
               </Link>
             </>

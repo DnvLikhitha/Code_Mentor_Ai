@@ -14,18 +14,31 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, { withCredentials: true })
-      .then(response => {
-        if (response.data.authenticated) {
-          setIsAuthenticated(true);
-        }
-      })
-      .catch(() => {
-        setIsAuthenticated(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const isNewSession = !sessionStorage.getItem('session_active');
+    
+    if (isNewSession) {
+      // Force logout on the backend because they just opened a new tab/window
+      axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/logout`, {}, { withCredentials: true })
+        .finally(() => {
+          sessionStorage.setItem('session_active', 'true');
+          setIsAuthenticated(false);
+          setLoading(false);
+        });
+    } else {
+      // Normal auth check
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, { withCredentials: true })
+        .then(response => {
+          if (response.data.authenticated) {
+            setIsAuthenticated(true);
+          }
+        })
+        .catch(() => {
+          setIsAuthenticated(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, []);
 
   if (loading) {
