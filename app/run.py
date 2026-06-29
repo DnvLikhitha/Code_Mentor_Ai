@@ -37,8 +37,41 @@ db.init_app(app)
 with app.app_context():
     try:
         db.create_all()
+        from sqlalchemy import text
+        try:
+            db.session.execute(text("ALTER TABLE user_details ALTER COLUMN password TYPE VARCHAR(256);"))
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"Migration error (expected on sqlite): {e}")
     except Exception as e:
         print(f"Database creation error: {e}")
+@app.route('/api/debug-db', methods=['GET'])
+def debug_db():
+    try:
+        db.create_all()
+        # Auto-migrate password column length for PostgreSQL
+        db.session.execute(text("ALTER TABLE user_details ALTER COLUMN password TYPE VARCHAR(256);"))
+        db.session.commit()
+        
+        # Test query to check if table exists
+        try:
+            from app.models import User_details
+            count = User_details.query.count()
+            return jsonify({"success": True, "message": f"Tables created/exist. User count: {count}"})
+        except Exception as query_e:
+            return jsonify({
+                "success": False, 
+                "message": "Tables created but query failed", 
+                "error": str(query_e),
+                "traceback": traceback.format_exc()
+            })
+    except Exception as e:
+        return jsonify({
+            "success": False, 
+            "error": str(e), 
+            "traceback": traceback.format_exc()
+        })
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
